@@ -1,0 +1,21 @@
+prototype(Fusion4j.Styleguide:Layout.DefaultLayout) < prototype(Neos.Fusion:Component) {
+    header = Fusion4j.Styleguide:Components.Header
+    content = 'some content to be set by user'
+    footer = Fusion4j.Styleguide:Components.Footer
+
+    renderer = afx`
+        <div class="fusion4j-styleguide--default-layout">
+            <header>
+                {props.header}
+            </header>
+            <div class="scroll-container">
+                <main class="default-main">
+                    {props.content}
+                </main>
+                <footer class="default-footer">
+                    {props.footer}
+                </footer>
+            </div>
+        </div>
+    `
+}

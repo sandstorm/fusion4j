@@ -1,0 +1,18 @@
+prototype(Fusion4j.Styleguide:Pages.FusionModel.PrototypeStorePage) < prototype(Fusion4j.Styleguide:Pages.DefaultPage) {
+    pageTitle = 'fusion4j styleguide - Fusion Model - Prototype Store'
+    pageHeadline = 'Prototype Store'
+    mainContent = afx`
+        <div>
+            <p>Search for Prototypes, see declared attributes and child paths.</p>
+            <Fusion4j.Styleguide:Components.Headline level="h2" content="Loaded Prototypes" />
+            <p>
+                Here is a list of all loaded prototypes:
+            </p>
+            <ul>
+                <Neos.Fusion:Loop items={prototypeStore.prototypes}>
+                    <li>{item}</li>
+                </Neos.Fusion:Loop>
+            </ul>
+        </div>
+    `
+}

@@ -1,0 +1,19 @@
+prototype(Fusion4j.Styleguide:Components.Tables.PathListTable) < prototype(Neos.Fusion:Component) {
+    paths = null
+
+    renderer = afx`
+        <div class="path-list-table">
+            <Neos.Fusion:Loop items={props.paths}>
+                <div class="path-list-row">
+                    <div class="path-list-cell name">{item.pathName}</div>
+                    <div class="path-list-cell type">
+                        {String.htmlSpecialChars(item.effectiveValue.type)}
+                    </div>
+                </div>
+                <div class="path-list-row hidden">
+                    {item.effectiveValue.astHint}
+                </div>
+            </Neos.Fusion:Loop>
+        </div>
+    `
+}

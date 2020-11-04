@@ -1,0 +1,26 @@
+foo.prototype(ABC) {
+    test = 'only inside foo'
+}
+
+prototype(Foo).bar = 'baz'
+prototype(Foo).some.thing = 'baz2'
+
+some.path.prototype(Foo).some = 'baz2'
+
+prototype(Foo).prototype(Bar).some = 'baz2'
+prototype(Foo).left.prototype(Bar).some = 'baz2'
+
+
+prototype(Inner.Test) {
+    foo.prototype(ABC) {
+        test = 'only inside foo'
+    }
+
+    prototype(Foo).bar = 'baz'
+    prototype(Foo).some.thing = 'baz2'
+
+    some.path.prototype(Foo).some = 'baz2'
+
+    prototype(Foo).prototype(Bar).some = 'baz2'
+    prototype(Foo).left.prototype(Bar).some = 'baz2'
+}

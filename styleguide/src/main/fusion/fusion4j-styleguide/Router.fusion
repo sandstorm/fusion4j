@@ -1,0 +1,37 @@
+#root >
+root = Neos.Fusion:Case {
+    overviewPage {
+        condition = ${router.currentRoute.name == StyleguideRoutes.overview()}
+        renderer = Fusion4j.Styleguide:Pages.OverviewPage
+    }
+    styleguidePage {
+        condition = ${router.currentRoute.name == StyleguideRoutes.styleguide()}
+        renderer = Fusion4j.Styleguide:Pages.StyleguidePage
+    }
+    styleguidePackagePage {
+        condition = ${router.currentRoute.parentRouteName == StyleguideRoutes.styleguide()}
+        renderer = Fusion4j.Styleguide:Pages.Styleguide.PackagePage
+    }
+    fusionModelPage {
+        condition = ${router.currentRoute.name == StyleguideRoutes.fusionModel()}
+        renderer = Fusion4j.Styleguide:Pages.FusionModelPage
+    }
+    fusionPrototypeStorePage {
+        condition = ${router.currentRoute.name == StyleguideRoutes.fusionPrototypeStore()}
+        renderer = Fusion4j.Styleguide:Pages.FusionModel.PrototypeStorePage
+    }
+    fusionPathIndexPage {
+        condition = ${router.currentRoute.name == StyleguideRoutes.fusionPathIndex()}
+        renderer = Fusion4j.Styleguide:Pages.FusionModel.PathIndexPage
+    }
+    default {
+        @position = 'end 1000'
+        condition = true
+        renderer = Fusion4j.Styleguide:Pages.NotFoundPage {
+            @context.notFoundMessage = ${"No Fusion route declared for request URI '" + router.requestUri + "'"}
+        }
+    }
+}
+
+notFound = Fusion4j.Styleguide:Pages.NotFoundPage
+error = Fusion4j.Styleguide:Pages.ServerError

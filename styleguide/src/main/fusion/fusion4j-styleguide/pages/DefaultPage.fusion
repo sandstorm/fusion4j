@@ -1,0 +1,39 @@
+prototype(Fusion4j.Styleguide:Pages.DefaultPage) < prototype(Neos.Fusion:Component) {
+    pageHeadline = 'pageHeadline to be set by user'
+    mainContent = 'mainContent to be set by user'
+    renderer = Fusion4j.Styleguide:DefaultResponse {
+        @apply.props = ${props}
+        body = afx`
+            <Fusion4j.Styleguide:Layout.DefaultLayout>
+                <Fusion4j.Styleguide:Components.Header @path="header" headerLogoUrl={router.routes.overview.url}>
+                    <Fusion4j.Styleguide:Components.Navigation @path="mainNavigation" navItems={router.routes}/>
+                </Fusion4j.Styleguide:Components.Header>
+                <Fusion4j.Styleguide:Components.Headline>
+                    {props.pageHeadline}
+                </Fusion4j.Styleguide:Components.Headline>
+                <div class="main-content default-page">
+                    {props.mainContent}
+                </div>
+                <Fusion4j.Styleguide:Components.Footer @path="footer">
+                    <Neos.Fusion:Fragment @path="metaInfo">
+                        <Fusion4j.Styleguide:Components.Footer.MetaInfo>
+                            {info.numberOfLoadedPrototypes} prototypes
+                        </Fusion4j.Styleguide:Components.Footer.MetaInfo>
+                        <Fusion4j.Styleguide:Components.Footer.MetaInfo>
+                            {info.numberOfIndexedPaths} indexed paths
+                        </Fusion4j.Styleguide:Components.Footer.MetaInfo>
+                        <Fusion4j.Styleguide:Components.Footer.MetaInfo>
+                            {info.numberOfStyleguideComponentPackages} component package(s)
+                        </Fusion4j.Styleguide:Components.Footer.MetaInfo>
+                        <Fusion4j.Styleguide:Components.Footer.MetaInfo>
+                            {info.localDevEnabled ? 'local dev mode' : 'prod mode'}
+                        </Fusion4j.Styleguide:Components.Footer.MetaInfo>
+                        <Fusion4j.Styleguide:Components.Footer.MetaInfo>
+                            runtime init: {info.lastRuntimeLoadTimeInMillis} ms
+                        </Fusion4j.Styleguide:Components.Footer.MetaInfo>
+                    </Neos.Fusion:Fragment>
+                </Fusion4j.Styleguide:Components.Footer>
+            </Fusion4j.Styleguide:Layout.DefaultLayout>
+        `
+    }
+}

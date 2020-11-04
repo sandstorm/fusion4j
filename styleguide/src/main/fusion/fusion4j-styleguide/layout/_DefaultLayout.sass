@@ -1,0 +1,36 @@
+@import "../styles/vars"
+
+$default-layout--header-height: 80px
+
+.fusion4j-styleguide--default-layout
+
+  header
+    position: fixed
+    width: 100%
+    top: 0
+    height: $default-layout--header-height
+    z-index: 1000
+
+  .scroll-container
+    display: flex
+    flex-direction: column
+    min-height: 100vh
+
+    .default-main
+      background: $default-bg-color
+      display: block
+      overflow: hidden
+      margin-top: $default-layout--header-height
+      margin-left: 2rem
+      padding-top: 1rem
+      position: relative
+      margin-bottom: auto
+      flex: 1
+
+      a
+        color: $neos-theme-color
+
+    footer
+      height: $footer-height
+      display: flex
+      margin-bottom: 0

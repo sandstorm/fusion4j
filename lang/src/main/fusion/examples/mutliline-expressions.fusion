@@ -1,0 +1,24 @@
+foo.bar.prototype(Neos.Foo:Bar2) {
+    baz = 'Foo'
+    test2 = 42
+    blah = ${my.expression()}
+    blah2 = ${my.expression('asdf')}
+    blah3 = ${my.expression("as
+                    some stuff }
+    " + "df")}
+multiline2 = ${my.expression(
+Foo.bar("foo")
+)}
+multiline3 = ${
+my.expression(
+Bar.foo("bar")
+)
+}
+multiline4 = ${my.expression(
+"bla",
+"blubb",
+Test()
+)}
+multiline5 = ${'col-sm-' +
+String.split(q(node).parent().property('layout'), '-')[multiColumnIteration.index]}
+}

@@ -1,0 +1,23 @@
+prototype(Neos.Fusion:DeprecationError) {
+    @class = 'io.neos.fusion4j.neos.fusion.impl.DeprecationErrorImplementation'
+    alternative = 'no alternative'
+}
+
+prototype(Neos.Fusion:Array) < prototype(Neos.Fusion:DeprecationError) {
+    alternative = 'Neos.Fusion:Join'
+}
+prototype(Neos.Fusion:RawArray) < prototype(Neos.Fusion:DeprecationError) {
+    alternative = 'Neos.Fusion:DataStructure'
+}
+prototype(Neos.Fusion:Template) < prototype(Neos.Fusion:DeprecationError) {
+    alternative = 'Neos.Fusion:Component + AFX'
+}
+prototype(Neos.Fusion:Collection) < prototype(Neos.Fusion:DeprecationError) {
+    alternative = 'Neos.Fusion:Loop'
+}
+prototype(Neos.Fusion:RawCollection) < prototype(Neos.Fusion:DeprecationError) {
+    alternative = 'Neos.Fusion:Map'
+}
+prototype(Neos.Fusion:Attributes) < prototype(Neos.Fusion:DeprecationError) {
+    alternative = 'Neos.Fusion:DataStructure'
+}

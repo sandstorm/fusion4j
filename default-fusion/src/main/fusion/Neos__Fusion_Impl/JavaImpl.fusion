@@ -1,0 +1,22 @@
+prototype(Neos.Fusion:Join).@class = 'io.neos.fusion4j.neos.fusion.impl.JoinImplementation'
+prototype(Neos.Fusion:DataStructure).@class = 'io.neos.fusion4j.neos.fusion.impl.DataStructureImplementation'
+prototype(Neos.Fusion:Case).@class = 'io.neos.fusion4j.neos.fusion.impl.CaseImplementation'
+prototype(Neos.Fusion:Matcher).@class = 'io.neos.fusion4j.neos.fusion.impl.MatcherImplementation'
+prototype(Neos.Fusion:Renderer).@class = 'io.neos.fusion4j.neos.fusion.impl.RendererImplementation'
+prototype(Neos.Fusion:Value).@class = 'io.neos.fusion4j.neos.fusion.impl.ValueImplementation'
+prototype(Neos.Fusion:Component).@class = 'io.neos.fusion4j.neos.fusion.impl.ComponentImplementation'
+prototype(Neos.Fusion:CanRender).@class = 'io.neos.fusion4j.neos.fusion.impl.CanRenderImplementation'
+
+prototype(Neos.Fusion:Tag).@class = 'io.neos.fusion4j.neos.fusion.impl.TagImplementation'
+
+prototype(Neos.Fusion:Map).@class = 'io.neos.fusion4j.neos.fusion.impl.MapImplementation'
+prototype(Neos.Fusion:Loop).@class = 'io.neos.fusion4j.neos.fusion.impl.LoopImplementation'
+prototype(Neos.Fusion:Reduce).@class = 'io.neos.fusion4j.neos.fusion.impl.ReduceImplementation'
+
+prototype(Neos.Fusion:Augmenter).@class = 'io.neos.fusion4j.neos.fusion.impl.AugmenterImplementation'
+
+prototype(Neos.Fusion:GlobalCacheIdentifiers) < prototype(Neos.Fusion:DataStructure) {
+    # TODO cache!
+    #format = ${request.format}
+    #baseUri = ${String.toString(BaseUri.getConfiguredBaseUriOrFallbackToCurrentRequest(request.httpRequest))}
+}

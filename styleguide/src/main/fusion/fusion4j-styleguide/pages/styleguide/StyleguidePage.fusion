@@ -1,0 +1,27 @@
+prototype(Fusion4j.Styleguide:Pages.StyleguidePage) < prototype(Fusion4j.Styleguide:Pages.DefaultPage) {
+    pageTitle = 'fusion4j styleguide - Styleguide Components'
+    pageHeadline = 'Styleguide'
+    mainContent = afx`
+        <div>
+            <Fusion4j.Styleguide:Pages.StyleguidePage.StyleguidePackageList componentPackages={StyleguideProperties.componentPackageNames} />
+        </div>
+    `
+}
+
+prototype(Fusion4j.Styleguide:Pages.StyleguidePage.StyleguidePackageList) < prototype(Neos.Fusion:Component) {
+    componentPackages = null
+
+    renderer = afx`
+        <div>
+            <p>
+                {props.componentPackages.size} package(s):
+            </p>
+            <Neos.Fusion:Loop items={props.componentPackages}>
+                <div>
+                    <Fusion4j.Styleguide:Components.Headline level="h2" content={item} />
+                    <a href={router.componentPackageRouteUrl(item)}>go to detail page</a>
+                </div>
+            </Neos.Fusion:Loop>
+        </div>
+    `
+}

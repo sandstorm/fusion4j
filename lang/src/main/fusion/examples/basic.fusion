@@ -1,0 +1,90 @@
+// namespace aliases
+namespace: Foo = Bar
+
+/*
+ that's a block comment
+*/
+
+include: "what's_the_pattern_here???"
+
+abc < foo {
+    asdasd = hallo
+}
+
+// that's a line comment
+
+@foo = 'bar'
+@bar {
+    hallo = 'welt'
+}
+
+prototype.test = Foo.Bar
+
+prototype(Foo.Bar:Baz) < prototype(Neos.Fusion:Component) {
+    foo = null
+    without = "whitespace on operator"
+    stringProp = 'test \'something\''
+    stringProp2 = "double \" quotes"
+    numberProp = 1234
+    boolProp1 = true
+    boolProp2 = false
+    expressionProp = ${someFancyExpression('hello', 123)}
+    prototypePropNoBody = Neos.Fusion:Value
+    prototypePropWithBody = Neos.Fusion:Component {
+        api = 42.0
+        renderer = Neos.Fusion:Value {
+            value = ${props.api}
+        }
+    }
+
+    /*
+    that's an inner block comment
+    */
+    // that's an inner line comment
+
+    someAfxDsl = afx`
+        <div class={props.stringProp}>
+            some test with escaped single quote \`
+
+            /*
+            that's not a Fusion comment
+            */
+
+            // that's also not a Fusion comment
+
+            and some newlines
+        </div>
+    `
+
+    testConfiguration {
+        hallo = "welt"
+    }
+    @context {
+        foo = "bar"
+    }
+
+    nested.path = "should work"
+}
+
+path = 'Hallo Welt!'
+
+rootConfiguration {
+    someValue = true
+}
+
+prototype(ABC) < prototype(AVA) {
+
+}
+
+prototype(Test) {
+}
+
+prototype(XYZ) >
+
+prototype(Outer) {
+    prototype(Inner) {
+        // foo bar
+    }
+}
+
+prototype(LastLineNoBr:Foo) >

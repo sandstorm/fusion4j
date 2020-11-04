@@ -1,0 +1,38 @@
+prototype(Fusion4j.Styleguide:Components.Header) < prototype(Neos.Fusion:Component) {
+    mainNavigation = null
+    headerLogoLinkUrl = null
+    sandstormLogoImageUri = Fusion4j.Styleguide:ImageUri {
+        fileName = 'sandstorm-logo.svg'
+    }
+    neosLogoImageUri = Fusion4j.Styleguide:ImageUri {
+        fileName = 'neos-logo.svg'
+    }
+    fusion4jLogoImageUri = Fusion4j.Styleguide:ImageUri {
+        fileName = 'fusion4j-logo.png'
+    }
+
+    renderer = afx`
+        <div class="header-content">
+            <a class="main-logo" href={props.headerLogoLinkUrl}>
+                <img src={props.fusion4jLogoImageUri} alt="fusion4j Logo" />
+            </a>
+            <div class="main-navigation">
+                {props.mainNavigation}
+            </div>
+            <div class="thanks-to-logos">
+                <div class="thanks-to-logo sandstorm-logo">
+                    <span class="label">provided by</span>
+                    <a href="https://sandstorm.de" target="_blank">
+                        <img src={props.sandstormLogoImageUri} alt="Sandstorm Logo" />
+                    </a>
+                </div>
+                <div class="thanks-to-logo neos-logo">
+                    <span class="label">check out</span>
+                    <a href="https://neos.io" target="_blank">
+                        <img src={props.neosLogoImageUri} alt="Neos Logo" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    `
+}

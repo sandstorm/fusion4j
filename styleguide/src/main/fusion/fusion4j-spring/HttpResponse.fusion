@@ -1,0 +1,11 @@
+prototype(Fusion4j.Spring:Http.Response) {
+    @class = 'io.neos.fusion4j.spring.HttpResponseImplementation'
+
+    statusCode = 200
+    headers = Fusion4j.Spring:Http.DefaultResponseHeaders
+    body = null
+}
+
+prototype(Fusion4j.Spring:Http.DefaultResponseHeaders) < prototype(Neos.Fusion:DataStructure) {
+    content-type = 'text/html'
+}

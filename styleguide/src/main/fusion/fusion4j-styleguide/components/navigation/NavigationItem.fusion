@@ -1,0 +1,10 @@
+prototype(Fusion4j.Styleguide:Components.NavigationItem) < prototype(Neos.Fusion:Component) {
+    linkUrl = ''
+    linkText = ''
+    active = false
+
+    renderer = Neos.Fusion:DataStructure {
+        @apply.props = ${props}
+        type = 'item'
+    }
+}

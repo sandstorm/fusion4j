@@ -1,0 +1,25 @@
+prototype(Fusion4j.Styleguide:Pages.NotFoundPage) < prototype(Fusion4j.Styleguide:Pages.DefaultPage) {
+    pageTitle = 'fusion4j styleguide - 404'
+    pageHeadline = 'Whoops 404'
+    mainContent = afx`
+        <div>
+            {notFoundMessage}
+            <p @if.routeSet={router.currentRoute != null}>
+                current route: {router.currentRoute.name}
+            </p>
+            <p>
+                <a @if.hasReferrer={router.referrer != null} href={router.referrer}>go back to previous page</a>
+            </p>
+            <div>
+                all routes:
+                <ul>
+                    <Neos.Fusion:Loop items={router.routesByName}>
+                        <li>
+                            {item.name} -> {item.url}
+                        </li>
+                    </Neos.Fusion:Loop>
+                </ul>
+            </div>
+        </div>
+    `
+}

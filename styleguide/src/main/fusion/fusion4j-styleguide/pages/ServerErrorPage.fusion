@@ -1,0 +1,23 @@
+prototype(Fusion4j.Styleguide:Pages.ServerError) < prototype(Fusion4j.Styleguide:DefaultResponse) {
+    title = 'Styleguide - 500'
+    body = afx`
+        <Fusion4j.Styleguide:Layout.DefaultLayout>
+            <div @path="mainNavigation">
+                <a href="/overview">go back to overview</a>
+            </div>
+            <Fusion4j.Styleguide:Components.Headline>
+                Whoops server error
+            </Fusion4j.Styleguide:Components.Headline>
+            <div>
+                error:
+                <pre>
+                    {String.htmlSpecialChars(errorMessage)}
+                </pre>
+                stack:
+                <pre>
+                    {String.htmlSpecialChars(stacktrace)}
+                </pre>
+            </div>
+        </Fusion4j.Styleguide:Layout.DefaultLayout>
+    `
+}

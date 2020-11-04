@@ -1,0 +1,66 @@
+# application configuration
+io.neos.fusion4j.styleguide:
+
+  # static assets
+  assets-base-url: '/assets'
+  assets-resources-path: '/static'
+  component-packages:
+    - package-name: 'Fusion4j.Styleguide'
+
+# fusion4j configuration
+io.neos.fusion4j:
+  # ****************************
+  # *   parser configuration   *
+  # ****************************
+  parser:
+    # scan path for finding Fusion package loaders
+    java-base-packages:
+      - 'io.neos.fusion4j'
+    # packages & load order
+    fusion-packages:
+      - 'Neos.Fusion'
+      - 'Fusion4j.Spring'
+      - 'Fusion4j.Styleguide'
+    # AFX
+    enable-default-dsls: true
+
+  # ****************************
+  # *  semantic configuration  *
+  # ****************************
+  semantic:
+    error-on-multi-inheritance: true
+
+  # ***************************
+  # *  runtime configuration  *
+  # ***************************
+  runtime:
+    strictEelMode: true
+
+  # ****************************
+  # *  profiler configuration  *
+  # ****************************
+  profiler:
+    # default is false
+    enabled: false
+    profiles:
+      'EVAL_EEL':
+        # 100 µs (default)
+        debug-threshold-in-nanos: 100000
+        # 5 ms (default)
+        info-threshold-in-nanos: 5000000
+        # 50 ms (default)
+        #warn-threshold-in-nanos: 50000000
+      # ... configure or merge more here
+
+  # *****************************
+  # *  local dev configuration  *
+  # *****************************
+  local-dev:
+    enabled: true
+    # hot code reloading:
+    file-system-packages:
+      'Fusion4j.Styleguide': './styleguide/src/main/fusion/fusion4j-styleguide'
+      'Fusion4j.Spring': './styleguide/src/main/fusion/fusion4j-spring'
+    # watcher settings
+    watcher-poll-interval-in-millis: 100
+    watcher-quiet-period-in-millis: 20

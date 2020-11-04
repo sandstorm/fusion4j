@@ -1,0 +1,37 @@
+prototype(Fusion4j.Styleguide:AssetUri) < prototype(Neos.Fusion:Component) {
+    fileName = null
+    directory = ''
+
+    renderer = Neos.Fusion:Join {
+        0 = '/assets'
+        1 = ${props.directory}
+        2 = ${props.fileName}
+        @glue = '/'
+    }
+}
+
+prototype(Fusion4j.Styleguide:CssUri) < prototype(Fusion4j.Styleguide:AssetUri) {
+    directory = 'css'
+}
+
+prototype(Fusion4j.Styleguide:ImageUri) < prototype(Fusion4j.Styleguide:AssetUri) {
+    directory = 'img'
+}
+
+prototype(Fusion4j.Styleguide:CssTag) < prototype(Neos.Fusion:Component) {
+    cssFileUri = null
+
+    renderer = afx`
+        <link rel="stylesheet" href={props.cssFileUri} type="text/css" />
+    `
+}
+
+prototype(Fusion4j.Styleguide:FaviconTag) < prototype(Neos.Fusion:Component) {
+    imageFileUri = null
+    sizes = null
+    type = 'image/png'
+
+    renderer = afx`
+        <link rel="icon" sizes={props.sizes} href={props.imageFileUri} type={props.type} />
+    `
+}

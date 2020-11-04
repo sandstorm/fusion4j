@@ -1,0 +1,11 @@
+prototype(Something) >
+somePath >
+somePath.prototype(ABC) >
+somePath.prototype(ABC).abc >
+
+someInner {
+    prototype(Something) >
+    somePath >
+    somePath.prototype(ABC) >
+    somePath.prototype(ABC).abc >
+}

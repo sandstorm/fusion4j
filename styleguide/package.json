@@ -1,0 +1,19 @@
+{
+  "name": "fusion4j-styleguide",
+  "version": "1.0.0",
+  "description": "CSS and JavaScript for the fusion4j styleguide",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass-dev": "sass --watch --update --style=expanded src/main/fusion/fusion4j-styleguide:out/production/resources/static/css",
+    "sass-prod": "sass --no-source-map --style=compressed src/main/fusion/fusion4j-styleguide:out/production/resources/static/css"
+  },
+  "author": "Sandstorm Media GmbH",
+  "license": "ISC",
+  "devDependencies": {
+    "sass": "^1.49.9"
+  },
+  "dependencies": {
+    "normalize-scss": "^7.0.1"
+  }
+}

@@ -1,0 +1,22 @@
+prototype(Neos.Fusion:UnsupportedError) {
+    @class = 'io.neos.fusion4j.neos.fusion.impl.UnsupportedErrorImplementation'
+    reason = 'no reason'
+}
+
+// TODO Spring integration
+prototype(Neos.Fusion:Http.ResponseHead) < prototype(Neos.Fusion:UnsupportedError) {
+    reason = 'no HTTP response head model implemented in fusion4j core -> build your own response'
+}
+prototype(Neos.Fusion:Http.Message) < prototype(Neos.Fusion:UnsupportedError) {
+    reason = 'no HTTP message model implemented in fusion4j core -> build your own response'
+}
+
+prototype(Neos.Fusion:UriBuilder) < prototype(Neos.Fusion:UnsupportedError) {
+    reason = 'no UriBuilder implemented in fusion4j core (we have no flow framework) -> build your own URLs'
+}
+prototype(Neos.Fusion:ResourceUri) < prototype(Neos.Fusion:UnsupportedError) {
+    reason = 'no ResourceUri implemented in fusion4j core (we have no flow framework) -> build your own URLs'
+}
+prototype(Neos.Fusion:Link.Resource) < prototype(Neos.Fusion:UnsupportedError) {
+    reason = 'no Link.Resource implemented in fusion4j core (we have no flow framework) -> build your own URLs'
+}

@@ -1,0 +1,41 @@
+prototype(Fusion4j.Styleguide:DefaultResponse) < prototype(Neos.Fusion:Component) {
+    statusCode = 200
+    pageTitle = 'fusion4j styleguide'
+    body = 'body to be set by user'
+    stylesheets = Fusion4j.Styleguide:DefaultResponse.Stylesheets
+    favicons = Fusion4j.Styleguide:DefaultResponse.Favicons
+    renderer = Fusion4j.Spring:Http.Response {
+        statusCode = ${props.statusCode}
+        body = afx`
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8"/>
+                <title>{props.pageTitle}</title>
+                {props.stylesheets}
+                {props.favicons}
+            </head>
+            <body>
+                {props.body}
+            </body>
+            </html>
+        `
+    }
+}
+
+prototype(Fusion4j.Styleguide:DefaultResponse.Stylesheets) < prototype(Neos.Fusion:Join) {
+    defaultCss = Fusion4j.Styleguide:CssTag {
+        cssFileUri = Fusion4j.Styleguide:CssUri {
+            fileName = 'main.css'
+        }
+    }
+}
+
+prototype(Fusion4j.Styleguide:DefaultResponse.Favicons) < prototype(Neos.Fusion:Join) {
+    size32 = Fusion4j.Styleguide:FaviconTag {
+        imageFileUri = Fusion4j.Styleguide:ImageUri {
+            fileName = 'favicon-32x32.png'
+        }
+        sizes = '32x32'
+    }
+}

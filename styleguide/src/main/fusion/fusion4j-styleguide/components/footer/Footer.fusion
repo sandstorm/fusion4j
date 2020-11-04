@@ -1,0 +1,22 @@
+prototype(Fusion4j.Styleguide:Components.Footer) < prototype(Neos.Fusion:Component) {
+    // TODO
+    fusion4jGithubLinkUrl = 'https://github.com/sandstorm'
+    neosIoLinkUrl = 'https://neos.io'
+    fusionManualLinkUrl = 'https://docs.neos.io/cms/manual/rendering/fusion'
+    sandstormLinkUrl = 'https://sandstorm.de'
+    metaInfo = 'metaInfo to be set by user'
+
+    renderer = afx`
+        <div class="footer-links">
+            <ul>
+                <li><a href={props.fusion4jGithubLinkUrl} target="_blank">fusion4j on github</a></li>
+                <li><a href={props.fusionManualLinkUrl} target="_blank">Fusion Manual</a></li>
+                <li><a href={props.neosIoLinkUrl} target="_blank">Neos CMS</a></li>
+                <li><a href={props.sandstormLinkUrl} target="_blank">provided by Sandstorm</a></li>
+            </ul>
+        </div>
+        <div class="meta-info">
+            {props.metaInfo}
+        </div>
+    `
+}

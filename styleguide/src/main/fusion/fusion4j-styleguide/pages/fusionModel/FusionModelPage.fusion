@@ -1,0 +1,14 @@
+prototype(Fusion4j.Styleguide:Pages.FusionModelPage) < prototype(Fusion4j.Styleguide:Pages.DefaultPage) {
+    pageTitle = 'fusion4j styleguide - Fusion Model'
+    pageHeadline = 'Fusion Model'
+    mainContent = afx`
+        <div>
+            <p>See how your Fusion code works under the hood. All the following utilities should help you debugging...</p>
+            <Fusion4j.Styleguide:Components.Headline level="h2" content="Prototype Store" />
+            <p>
+                Fusion4j loads all prototypes <b>once</b> at runtime creation. See a overview and debugging tools on
+                the <a href={StyleguideRoutes.fusionPrototypeStoreUrl()}>Prototype Store page</a>.
+            </p>
+        </div>
+    `
+}

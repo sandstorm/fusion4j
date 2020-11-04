@@ -1,0 +1,55 @@
+prototype(Fusion4j.Styleguide:Components.Navigation) < prototype(Neos.Fusion:Component) {
+    navItems = Neos.Fusion:DataStructure
+
+    renderer = afx`
+        <ul class="navigation">
+            <Neos.Fusion:Loop items={props.navItems}>
+                <Fusion4j.Styleguide:Components.Navigation.ItemRenderer routeItem={item} />
+            </Neos.Fusion:Loop>
+        </ul>
+    `
+}
+
+prototype(Fusion4j.Styleguide:Components.Navigation.ItemRenderer) < prototype(Neos.Fusion:Component) {
+    routeItem = null
+    level = 1
+
+    #renderer.@process.debug = ${props.routeItem + value}
+    renderer = Neos.Fusion:Case {
+        group {
+            condition = ${props.routeItem.isGroup}
+            renderer = afx`
+                <li class={'nav-group-level-' + props.level + (props.routeItem.active ? ' active' : '')}>
+                    <Fusion4j.Styleguide:Components.Navigation.ItemLink {...props} />
+                    <ul class={'nav-items-level-' + props.level}>
+                        <Neos.Fusion:Loop items={props.routeItem.subRoutes}>
+                            <Fusion4j.Styleguide:Components.Navigation.ItemRenderer level={props.level + 1} routeItem={item}/>
+                        </Neos.Fusion:Loop>
+                    </ul>
+                </li>
+            `
+        }
+        item {
+            condition = true
+            renderer = afx`
+                <li class={'nav-item-level-' + props.level + (props.routeItem.active ? ' active' : '')}>
+                    <Fusion4j.Styleguide:Components.Navigation.ItemLink {...props} />
+                </li>
+            `
+        }
+    }
+}
+
+prototype(Fusion4j.Styleguide:Components.Navigation.ItemLink) < prototype(Neos.Fusion:Component) {
+    routeItem = null
+    level = null
+
+    renderer = afx`
+        <a
+                href={props.routeItem.url}
+                class={'nav-link-level-' + props.level + (props.routeItem.active ? ' active' : '')}
+        >
+            {props.routeItem.title}
+        </a>
+    `
+}

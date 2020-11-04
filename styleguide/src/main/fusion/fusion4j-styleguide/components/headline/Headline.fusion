@@ -1,0 +1,10 @@
+prototype(Fusion4j.Styleguide:Components.Headline) < prototype(Neos.Fusion:Component) {
+    content = 'headline to be set by user'
+    level = 'h1'
+
+    renderer = ${props.content}
+    renderer.@process.wrapHxTag = Neos.Fusion:Tag {
+        tagName = ${props.level}
+        content = ${value}
+    }
+}

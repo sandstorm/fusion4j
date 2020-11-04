@@ -1,0 +1,26 @@
+prototype(Fusion4j.Styleguide:Pages.Styleguide.PackagePage) < prototype(Fusion4j.Styleguide:Pages.DefaultPage) {
+    pageTitle = 'fusion4j styleguide - Component Package '
+    pageHeadline = 'Components'
+    mainContent = afx`
+        <div>
+            <Fusion4j.Styleguide:Pages.Styleguide.PackagePage.Body />
+        </div>
+    `
+}
+
+prototype(Fusion4j.Styleguide:Pages.Styleguide.PackagePage.Body) < prototype(Neos.Fusion:Component) {
+    renderer = afx`
+        <div>
+            <p>
+                package {componentPackage.name} has {size(componentPackage.prototypes)} prototypes:
+            </p>
+            <ul>
+                <Neos.Fusion:Loop items={componentPackage.prototypes}>
+                    <li>
+                        {item}
+                    </li>
+                </Neos.Fusion:Loop>
+            </ul>
+        </div>
+    `
+}

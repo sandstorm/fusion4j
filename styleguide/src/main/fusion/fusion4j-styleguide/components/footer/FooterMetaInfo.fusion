@@ -1,0 +1,8 @@
+prototype(Fusion4j.Styleguide:Components.Footer.MetaInfo) < prototype(Neos.Fusion:Component) {
+    content = 'content to be set by user'
+    renderer = afx`
+        <div class="meta-info-item">
+            <span>{props.content}</span>
+        </div>
+    `
+}

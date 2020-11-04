@@ -1,0 +1,20 @@
+prototype(Fusion4j.Styleguide:Pages.FusionModel.PathIndexPage) < prototype(Fusion4j.Styleguide:Pages.DefaultPage) {
+    pageTitle = 'fusion4j styleguide - Fusion Model - Path Index'
+    pageHeadline = 'Path Index'
+    mainContent = afx`
+        <div>
+            <p>Search for Paths</p>
+            <Fusion4j.Styleguide:Components.Headline level="h2" content="Paths" />
+            <p>
+                Here is a list of all paths:
+            </p>
+            <Fusion4j.Styleguide:Components.Headline level="h3" content="Entrypoint Paths" />
+            <p>
+                Those paths can be rendered via evaluate API. Usually, a non-nested,
+                single segmented entrypoint path is rendered.<br/>
+                Nested paths often override prototype paths. They are called instance paths.
+            </p>
+            <Fusion4j.Styleguide:Components.Tables.PathListTable paths={pathIndex.entrypointPaths} />
+        </div>
+    `
+}
