@@ -4,7 +4,7 @@ Supports the Neos Fusion syntax/semantic as
 described [in the official Neos Fusion documentation](https://docs.neos.io/cms/manual/rendering/fusion).
 
 - full Fusion language parser with out-of-the-box [AFX](https://github.com/neos/fusion-afx) support
-- Fusion runtime for the JVM usable as standalone template engine
+- Fusion runtime for the JVM usable as standalone, server-side template engine
 - default Fusion objects from Neos.Fusion
 - written in Kotlin
 - functional, library styled API - modules are usable standalone
@@ -35,7 +35,19 @@ Features:
 
 This is currently WIP, so there is no doc for now :/ but check out: 
 - an [example application.yml](/styleguide/src/main/resources/application.yml)
-- an [example controller]()
+- an [example controller](/styleguide/src/main/kotlin/io/neos/fusion4j/styleguide/ui/fusionModel/FusionModelPageController.kt)
+- example [Fusion code](/styleguide/src/main/fusion/fusion4j-styleguide)
+
+## fusion4j styleguide
+
+The styleguide has three purposes:
+- living styleguide for your Fusion components, as known from [Monocle](https://github.com/sitegeist/Sitegeist.Monocle)
+- analyzing / browsing of your parsed and semantically normalized Fusion code
+- real-world example of the Spring integration and fusion4j in action
+
+The styleguide UI itself is written in fusion4j plus a bit of kotlin models and controllers.
+
+TODO doc
 
 ## Info on development state
 
