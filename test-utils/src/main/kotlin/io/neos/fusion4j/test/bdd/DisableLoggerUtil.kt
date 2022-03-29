@@ -25,32 +25,21 @@
  *  - Eric Kloss
  */
 
-package io.neos.fusion4j.runtime.model
+package io.neos.fusion4j.test.bdd
 
-import io.neos.fusion4j.lang.model.AbsoluteFusionPathName
-import io.neos.fusion4j.lang.model.RelativeFusionPathName
-import io.neos.fusion4j.lang.model.decl.FusionLangElement
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
-data class AppliedFusionAttribute(
-    override val relativePath: RelativeFusionPathName,
-    override val valueDecl: FusionLangElement,
-    val absolutePath: AbsoluteFusionPathName,
-    val evaluatedValue: Any?
-) : FusionAttribute {
-    override val untyped: Boolean = false
-    override val fusionObjectType: Boolean = false
+class DisableLoggerUtil {
 
     companion object {
-        fun fromAppliedAttributeSource(
-            basePath: AbsoluteFusionPathName,
-            attributeKey: RelativeFusionPathName,
-            source: AppliedAttributeSource
-        ): AppliedFusionAttribute =
-            AppliedFusionAttribute(
-                attributeKey,
-                source.declaration,
-                basePath + attributeKey,
-                source.value
-            )
+
+        fun setLogLevelTo(level: String) {
+            // TODO maybe load Logger dep by class name at runtime?
+            val rootLogger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME) as ch.qos.logback.classic.Logger
+            rootLogger.level = ch.qos.logback.classic.Level.toLevel(level)
+        }
+
     }
+
 }

@@ -62,7 +62,7 @@ class DefaultEelThisPointerRuntimeAccess(
         val relativePath = RelativeFusionPathName.fromSegments(listOf(pathSegment))
         val nextRequest = if (fusionObjectInstance != null) {
             // object instance evaluation
-            val attribute = fusionObjectInstance.getAttribute(
+            val attribute = fusionObjectInstance.getPropertyAttribute(
                 relativePath
             ) ?: return null // non-strict mode
             FusionEvaluationRequest.eelThisInstance(

@@ -31,11 +31,17 @@ import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
 import io.neos.fusion4j.lang.file.*
 import io.neos.fusion4j.lang.model.FusionPackageName
+import io.neos.fusion4j.test.bdd.DisableLoggerUtil
 import org.junit.Assert
 
 
 class FusionCodeDefinitionSteps : En {
     companion object {
+
+        init {
+            DisableLoggerUtil.setLogLevelTo("WARN")
+        }
+
         private var additionalPackages: MutableSet<FusionPackageLoader.FusionPackageLoaderDescriptor> = mutableSetOf()
         private var lastInstance: FusionCodeDefinitionSteps? = null
         fun getInstance(): FusionCodeDefinitionSteps =

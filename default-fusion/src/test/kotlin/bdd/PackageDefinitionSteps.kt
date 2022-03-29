@@ -27,17 +27,10 @@
 
 package bdd
 
-import ch.qos.logback.classic.Level
 import io.cucumber.java8.En
-import io.neos.fusion4j.lang.file.FusionPackageDefinition
 import io.neos.fusion4j.lang.file.FusionPackageLoader
 import io.neos.fusion4j.lang.model.FusionPackageName
-import io.neos.fusion4j.neos.fusion.NeosFusionPackage
-import io.neos.fusion4j.neos.neos.NeosNeosPackage
-import io.neos.fusion4j.neos.nodetypes.NeosNodeTypesPackage
 import io.neos.fusion4j.test.bdd.steps.FusionCodeDefinitionSteps
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 
 @Suppress("unused")
 class PackageDefinitionSteps : En {
@@ -52,11 +45,8 @@ class PackageDefinitionSteps : En {
     }
 
     init {
-
         Before { _ ->
             lastInstance = this
-            val rootLogger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME) as ch.qos.logback.classic.Logger
-            rootLogger.level = Level.INFO
         }
 
         After { _ ->
@@ -69,7 +59,6 @@ class PackageDefinitionSteps : En {
                 ?: throw IllegalArgumentException("Unknown default Fusion package $packageNameString")
             FusionCodeDefinitionSteps.registerPackage(pkg)
         }
-
     }
 
 }

@@ -32,6 +32,7 @@ import io.neos.fusion4j.lang.semantic.FusionObjectInstance
 import io.neos.fusion4j.lang.semantic.PositionalArraySorter
 
 /**
+ * TODO performance / cleanup (probably remove AppliedAttributeSource and map directly to AppliedFusionAttribute)
  * A Fusion Object instance at a given fusionPath - with all the nested keys which exist at this path:
  * - descendants of the path
  * - attributes from the prototype (loaded from [FusionObjectInstance.attributes])
@@ -40,22 +41,58 @@ data class RuntimeFusionObjectInstance(
     val fusionObjectInstance: FusionObjectInstance,
     val appliedAttributes: Map<RelativeFusionPathName, AppliedAttributeSource>,
 ) {
-    val attributes: Map<RelativeFusionPathName, FusionAttribute> get() =
+    private val attributesLazy: Lazy<Map<RelativeFusionPathName, FusionAttribute>> = lazy {
         fusionObjectInstance.attributes.mapValues { DeclaredFusionAttribute(it.value) } +
                 appliedAttributes.mapValues {
-                    // applied attributes are relative to the fusion object instance path
-                    val absolutePath = fusionObjectInstance.instanceDeclarationPath + it.key
-                    AppliedFusionAttribute(it.key, it.value.declaration, absolutePath, it.value.value)
+                    AppliedFusionAttribute.fromAppliedAttributeSource(
+                        // applied attributes are relative to the fusion object instance path
+                        fusionObjectInstance.instanceDeclarationPath,
+                        it.key,
+                        it.value
+                    )
                 }
-    val propertyAttributes: Map<RelativeFusionPathName, FusionAttribute> get() =
+    }
+    val attributes: Map<RelativeFusionPathName, FusionAttribute> by attributesLazy
+
+    private val propertyAttributesLazy: Lazy<Map<RelativeFusionPathName, FusionAttribute>> = lazy {
         attributes
             .filterKeys { it.propertyAttribute }
+    }
 
-    val positionalArraySorter: PositionalArraySorter get() = PositionalArraySorter.createSorter(
-        attributes.keys,
-        fusionObjectInstance.attributePositions
-    )
+    val propertyAttributes: Map<RelativeFusionPathName, FusionAttribute> by propertyAttributesLazy
 
-    fun getAttribute(pathName: RelativeFusionPathName): FusionAttribute? = propertyAttributes[pathName]
+    val positionalArraySorter: PositionalArraySorter by lazy {
+        PositionalArraySorter.createSorter(
+            attributes.keys,
+            fusionObjectInstance.attributePositions
+        )
+    }
+
+    /**
+     * Fast implementation of get property attribute. We don't want to initialize the whole lazy
+     * property map for a single attribute access. Usually, you EITHER iterate all attributes OR
+     * access specific attributes in Fusion object implementations.
+     */
+    fun getPropertyAttribute(pathName: RelativeFusionPathName): FusionAttribute? =
+        if (propertyAttributesLazy.isInitialized()) {
+            propertyAttributes[pathName]
+        } else {
+            val appliedAttribute = appliedAttributes[pathName]
+            if (appliedAttribute != null) {
+                AppliedFusionAttribute.fromAppliedAttributeSource(
+                    // applied attributes are relative to the fusion object instance path
+                    fusionObjectInstance.instanceDeclarationPath,
+                    pathName,
+                    appliedAttribute
+                )
+            } else {
+                val declaredAttribute = fusionObjectInstance.attributes[pathName]
+                if (declaredAttribute != null) {
+                    DeclaredFusionAttribute(declaredAttribute)
+                } else {
+                    null
+                }
+            }
+        }
 
 }

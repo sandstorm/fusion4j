@@ -79,8 +79,8 @@ class FilesystemFusionFile(
                 FusionResourceName(packagePath.relativize(filePath).pathString),
                 mapOf(
                     "file" to filePath
-                        //.absolute()
-                        //.normalize()
+                        .absolute()
+                        .normalize()
                         .pathString
                 )
             )
