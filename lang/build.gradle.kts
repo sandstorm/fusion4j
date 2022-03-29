@@ -1,26 +1,25 @@
 plugins {
     `java-library`
-    id("kotlin")
-
+    @Suppress("DSL_SCOPE_VIOLATION")
+    alias(libs.plugins.kotlin.jvm)
     antlr
 }
 
 dependencies {
-    antlr("org.antlr", "antlr4", project.ext.get("antlrVersion") as String)
-
+    antlr(libs.antlr)
     api(platform(project(":platform")))
 
-    api("org.antlr", "antlr4-runtime")
+    implementation(libs.antlr.runtime)
+
     implementation(kotlin("script-runtime"))
 
-    implementation("org.reflections:reflections")
-    implementation("io.github.microutils:kotlin-logging-jvm")
-    runtimeOnly("ch.qos.logback:logback-core")
-    runtimeOnly("ch.qos.logback:logback-classic")
+    implementation(libs.reflections)
+    implementation(libs.klogger)
 
-    testImplementation("io.cucumber", "cucumber-java8", project.ext.get("cucumberVersion") as String)
-    testImplementation("io.cucumber", "cucumber-junit", project.ext.get("cucumberVersion") as String)
+    // testing
     testImplementation(platform(project(":test-utils")))
+    testImplementation(testLibs.cucumber.java8)
+    testImplementation(testLibs.cucumber.junit)
 }
 
 sourceSets.main {

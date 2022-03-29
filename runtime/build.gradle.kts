@@ -1,21 +1,19 @@
 plugins {
     `java-library`
-    id("kotlin")
+    @Suppress("DSL_SCOPE_VIOLATION")
+    alias(libs.plugins.kotlin.jvm)
 }
 
 dependencies {
     api(platform(project(":platform")))
     api(project(":lang"))
 
-    api("io.projectreactor", "reactor-core")
+    implementation(libs.apache.jexl)
 
-    testImplementation("io.cucumber", "cucumber-java8", project.ext.get("cucumberVersion") as String)
-    testImplementation("io.cucumber", "cucumber-junit", project.ext.get("cucumberVersion") as String)
+    implementation(libs.klogger)
+
+    // testing
     testImplementation(platform(project(":test-utils")))
-
-    implementation("io.github.microutils:kotlin-logging-jvm")
-    runtimeOnly("ch.qos.logback:logback-core")
-    runtimeOnly("ch.qos.logback:logback-classic")
-
-    implementation("org.apache.commons:commons-jexl3")
+    testImplementation(testLibs.cucumber.java8)
+    testImplementation(testLibs.cucumber.junit)
 }
