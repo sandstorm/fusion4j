@@ -87,7 +87,7 @@ subprojects {
              *  - ORG_GRADLE_PROJECT_signingKey
              *  - ORG_GRADLE_PROJECT_signingPassword
              */
-            val inMemorySigning: Boolean = (project.properties["inMemorySigning"] as Boolean?) ?: false
+            val inMemorySigning: Boolean = (project.properties["inMemorySigning"] as String?) == "true"
             if (inMemorySigning) {
                 val signingKey: String by project
                 val signingPassword: String by project
