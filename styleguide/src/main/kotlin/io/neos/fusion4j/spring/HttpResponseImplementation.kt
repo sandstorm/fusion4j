@@ -32,9 +32,9 @@ import io.neos.fusion4j.runtime.FusionObjectImplementation
 import io.neos.fusion4j.runtime.FusionRuntimeImplementationAccess
 import io.neos.fusion4j.runtime.evaluateRequiredAttributeOptionalValue
 import io.neos.fusion4j.runtime.evaluateRequiredAttributeValue
-import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.function.ServerResponse
+import javax.servlet.http.HttpServletResponse
 
 @Component
 class HttpResponseImplementation : FusionObjectImplementation {

@@ -33,7 +33,7 @@ import io.neos.fusion4j.styleguide.ui.StyleguideFusionViewService
 import io.neos.fusion4j.styleguide.ui.StyleguideProperties
 import io.neos.fusion4j.styleguide.ui.StyleguideRouteNotFoundException
 import io.neos.fusion4j.styleguide.ui.StyleguideRouter
-import jakarta.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

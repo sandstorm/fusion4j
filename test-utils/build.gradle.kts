@@ -1,3 +1,5 @@
+description = "fusion4j - BDD test utilities / step definitions"
+
 plugins {
     `java-library`
     @Suppress("DSL_SCOPE_VIOLATION")
@@ -19,4 +21,17 @@ dependencies {
     // TODO make runtime only and load class by string?
     implementation(libs.logback.core)
     implementation(libs.logback.classic)
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+configure<PublishingExtension> {
+    publications {
+        withType<MavenPublication> {
+            from(components["java"])
+        }
+    }
 }

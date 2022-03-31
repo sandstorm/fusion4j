@@ -28,7 +28,6 @@
 package io.neos.fusion4j.spring.dev
 
 import io.neos.fusion4j.lang.file.FilesystemFusionFile
-import jakarta.annotation.PreDestroy
 import mu.KLogger
 import mu.KotlinLogging
 import org.springframework.boot.devtools.filewatch.ChangedFile
@@ -37,6 +36,7 @@ import org.springframework.boot.devtools.filewatch.FileChangeListener
 import org.springframework.boot.devtools.filewatch.FileSystemWatcher
 import java.io.File
 import java.time.Duration
+import javax.annotation.PreDestroy
 import kotlin.io.path.Path
 
 private val log: KLogger = KotlinLogging.logger {}

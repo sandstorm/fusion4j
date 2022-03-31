@@ -1,3 +1,5 @@
+description = "fusion4j - Language module - Parser / Semantic"
+
 plugins {
     `java-library`
     @Suppress("DSL_SCOPE_VIOLATION")
@@ -22,6 +24,11 @@ dependencies {
     testImplementation(testLibs.cucumber.junit)
 }
 
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
 sourceSets.main {
     java.srcDirs(java.srcDirs + "build/generated-src/antlr/main")
 }
@@ -34,4 +41,12 @@ tasks.generateGrammarSource {
     maxHeapSize = "64m"
     arguments = arguments + listOf("-visitor", "-package", "io.neos.fusion4j.lang.antlr")
     outputDirectory = File("build/generated-src/antlr/main/io/neos/fusion4j/lang/antlr")
+}
+
+configure<PublishingExtension> {
+    publications {
+        withType<MavenPublication> {
+            from(components["java"])
+        }
+    }
 }

@@ -33,12 +33,12 @@ import io.neos.fusion4j.lang.model.AbsoluteFusionPathName
 import io.neos.fusion4j.runtime.FusionContext
 import io.neos.fusion4j.runtime.FusionRuntime
 import io.neos.fusion4j.runtime.evaluateTyped
-import jakarta.servlet.http.HttpServletRequest
-import jakarta.servlet.http.HttpServletResponse
 import mu.KLogger
 import mu.KotlinLogging
 import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.servlet.View
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 private val log: KLogger = KotlinLogging.logger {}
 

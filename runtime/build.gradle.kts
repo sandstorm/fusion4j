@@ -1,3 +1,5 @@
+description = "fusion4j - Runtime module"
+
 plugins {
     `java-library`
     @Suppress("DSL_SCOPE_VIOLATION")
@@ -16,4 +18,17 @@ dependencies {
     testImplementation(platform(project(":test-utils")))
     testImplementation(testLibs.cucumber.java8)
     testImplementation(testLibs.cucumber.junit)
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+configure<PublishingExtension> {
+    publications {
+        withType<MavenPublication> {
+            from(components["java"])
+        }
+    }
 }

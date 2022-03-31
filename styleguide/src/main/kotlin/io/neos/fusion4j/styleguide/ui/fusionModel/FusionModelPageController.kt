@@ -27,18 +27,15 @@
 
 package io.neos.fusion4j.styleguide.ui.fusionModel
 
-import io.neos.fusion4j.lang.model.FusionPathName
-import io.neos.fusion4j.lang.model.RelativeFusionPathName
-import io.neos.fusion4j.lang.semantic.FusionValueReference
 import io.neos.fusion4j.runtime.FusionContext
 import io.neos.fusion4j.runtime.model.FusionDataStructure
 import io.neos.fusion4j.spring.FusionRuntimeContainer
 import io.neos.fusion4j.styleguide.ui.StyleguideFusionViewService
 import io.neos.fusion4j.styleguide.ui.StyleguideRouter
-import jakarta.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.servlet.ModelAndView
+import javax.servlet.http.HttpServletRequest
 
 @Controller
 class FusionModelPageController(
@@ -51,13 +48,13 @@ class FusionModelPageController(
         request,
         FusionContext.create(
             mapOf(
-                 "prototypeStore" to PrototypeStoreModel(
-                     prototypes = FusionDataStructure.fromList(
-                         fusionRuntimeContainer.prototypeStore.prototypeNames
-                             .map { it.qualifiedName }
-                             .toList()
-                     )
-                 )
+                "prototypeStore" to PrototypeStoreModel(
+                    prototypes = FusionDataStructure.fromList(
+                        fusionRuntimeContainer.prototypeStore.prototypeNames
+                            .map { it.qualifiedName }
+                            .toList()
+                    )
+                )
             )
         )
     )

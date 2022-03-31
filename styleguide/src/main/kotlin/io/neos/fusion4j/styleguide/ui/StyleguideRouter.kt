@@ -30,7 +30,7 @@ package io.neos.fusion4j.styleguide.ui
 import io.neos.fusion4j.lang.annotation.FusionApi
 import io.neos.fusion4j.lang.model.FusionPackageName
 import io.neos.fusion4j.runtime.model.FusionDataStructure
-import jakarta.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletRequest
 import mu.KLogger
 import mu.KotlinLogging
 

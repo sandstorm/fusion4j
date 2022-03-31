@@ -29,7 +29,7 @@ dependencyResolutionManagement {
             version("antlr", "4.9.3")
             version("logback", "1.2.10")
             version("kotlin", "1.6.20-RC2")
-            version("spring", "3.0.0-SNAPSHOT")
+            version("spring", "2.6.5")
 
             plugin("kotlin-jvm", "org.jetbrains.kotlin.jvm").versionRef("kotlin")
             plugin("kotlin-spring", "org.jetbrains.kotlin.plugin.spring").versionRef("kotlin")

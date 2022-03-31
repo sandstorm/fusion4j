@@ -32,7 +32,6 @@ import io.neos.fusion4j.runtime.eel.EelHelperFactory
 import io.neos.fusion4j.spring.FusionRuntimeContainer
 import io.neos.fusion4j.spring.FusionRuntimeFactory
 import io.neos.fusion4j.spring.RuntimeProperties
-import jakarta.annotation.PostConstruct
 import mu.KLogger
 import mu.KotlinLogging
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
@@ -41,6 +40,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
 import org.springframework.util.ClassUtils
+import javax.annotation.PostConstruct
 
 private val log: KLogger = KotlinLogging.logger {}
 

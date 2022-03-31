@@ -33,7 +33,7 @@ import io.neos.fusion4j.runtime.FusionContextLayer
 import io.neos.fusion4j.spring.FusionRuntimeContainer
 import io.neos.fusion4j.spring.FusionView
 import io.neos.fusion4j.spring.dev.LocalDevProperties
-import jakarta.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.ModelAndView
