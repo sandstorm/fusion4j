@@ -27,7 +27,7 @@ jobs:
         env:
           ORG_GRADLE_PROJECT_version: ${{ steps.get_version.outputs.VERSION}}${{github.event.release.prerelease && '-pre' || ''}}
           ORG_GRADLE_PROJECT_inMemorySigning: true
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GITHUB_SIGNING_KEY }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GITHUB_SIGNING_PASSWORD }}
-          ORG_GRADLE_PROJECT_NEXUS_USERNAME: ${{ secrets.GITHUB_NEXUS_USERNAME }}
-          ORG_GRADLE_PROJECT_NEXUS_PASSWORD: ${{ secrets.GITHUB_NEXUS_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
+          ORG_GRADLE_PROJECT_NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          ORG_GRADLE_PROJECT_NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
