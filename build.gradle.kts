@@ -85,3 +85,7 @@ subprojects {
         }
     }
 }
+
+task("printProjectVersion") {
+    println("version: ${project.version}")
+}
