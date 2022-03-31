@@ -71,8 +71,8 @@ subprojects {
         repositories {
             maven {
                 credentials {
-                    username = properties["NEXUS_USERNAME"] as String
-                    password = properties["NEXUS_PASSWORD"] as String
+                    username = properties["NEXUS_USERNAME"] as String?
+                    password = properties["NEXUS_PASSWORD"] as String?
                 }
                 val releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
                 val snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
