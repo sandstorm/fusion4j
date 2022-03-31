@@ -5,6 +5,9 @@ on:
       - 'main'
       - 'releases/**'
   push:
+    branches:
+      - '**'
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
