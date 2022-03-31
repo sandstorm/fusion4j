@@ -91,7 +91,7 @@ subprojects {
             if (inMemorySigning) {
                 val signingKey: String by project
                 val signingPassword: String by project
-                println(signingKey.substringBefore("\n"))
+                println(signingKey)
                 useInMemoryPgpKeys(signingKey, signingPassword)
             }
 
