@@ -23,11 +23,11 @@ jobs:
       - name: Build with Gradle
         uses: gradle/gradle-build-action@937999e9cc2425eddc7fd62d1053baf041147db7
         with:
-          arguments: clean build publish
+          arguments: clean build publish --stacktrace
         env:
           ORG_GRADLE_PROJECT_version: ${{ steps.get_version.outputs.VERSION}}${{github.event.release.prerelease && '-pre' || ''}}
           ORG_GRADLE_PROJECT_inMemorySigning: true
-          ORG_GRADLE_PROJECT_signingKey: '${{ secrets.GITHUB_SINGING_KEY }}'
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GITHUB_SINGING_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GITHUB_SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GITHUB_SIGNING_PASSWORD }}
           ORG_GRADLE_PROJECT_NEXUS_USERNAME: ${{ secrets.GITHUB_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_NEXUS_PASSWORD: ${{ secrets.GITHUB_NEXUS_PASSWORD }}
