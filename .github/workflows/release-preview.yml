@@ -1,10 +1,10 @@
-name: release-fusion4j
+name: release-preview-fusion4j
 on:
   release:
     types: [created]
 
 jobs:
-  build-and-test:
+  release-preview:
     runs-on: ubuntu-latest
 
     steps:
