@@ -81,6 +81,19 @@ subprojects {
         }
 
         signing {
+            /*
+             * Used in github action
+             * SECRETS API ENV VARS:
+             *  - ORG_GRADLE_PROJECT_signingKey
+             *  - ORG_GRADLE_PROJECT_signingPassword
+             */
+            val inMemorySigning: Boolean = (project.properties["inMemorySigning"] as Boolean?) ?: false
+            if (inMemorySigning) {
+                val signingKey: String by project
+                val signingPassword: String by project
+                useInMemoryPgpKeys(signingKey, signingPassword)
+            }
+
             sign(publishing.publications[project.name])
         }
     }
