@@ -36,7 +36,10 @@ Features:
 This is currently WIP, so there is no doc for now :/ but check out: 
 - an [example application.yml](/styleguide/src/main/resources/application.yml)
 - an [example controller](/styleguide/src/main/kotlin/io/neos/fusion4j/styleguide/ui/fusionModel/FusionModelPageController.kt)
-- example [Fusion code](/styleguide/src/main/fusion/fusion4j-styleguide)
+- example [Fusion code](/styleguide/src/main/fusion/fusion4j-styleguide) with its 
+  corresponding [package loader](/styleguide/src/main/kotlin/io/neos/fusion4j/styleguide/ui/StyleguideFusionPackage.kt)
+
+TODO how to use doc
 
 ## fusion4j styleguide
 
@@ -105,7 +108,29 @@ TODO write concept on how to share templates between two-stacks
 
 ### include via Maven / Gradle
 
-TODO when released for now compile locally and write tests for contribution :*
+Internal module dependencies:
+- lang (independent)
+- runtime (lang)
+- default-fusion (lang, runtime)
+- test-utils (lang, runtime)
+
+*For now, there are just SNAPSHOT releases I made local for testing:*
+First `0.9.0` release is coming soon...
+
+```kotlin
+repositories {
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots")
+    // ...
+}
+
+dependencies {
+    // ...
+    implementation(module("io.neos.fusion4j:default-fusion:0.9.0-SNAPSHOT"))
+    // ...
+    testImplementation(module("io.neos.fusion4j:test-utils:0.9.0-SNAPSHOT"))
+    // ...
+}
+```
 
 ### code examples
 
