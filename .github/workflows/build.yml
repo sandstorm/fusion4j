@@ -3,10 +3,11 @@ on:
   pull_request:
     branches:
       - 'main'
-      - 'releases/**'
   push:
     branches:
       - '**'
+      # pushes to main will trigger release-snapshot.yml which includes build and test
+      - '!main'
 
 jobs:
   build-and-test:

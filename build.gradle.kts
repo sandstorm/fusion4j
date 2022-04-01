@@ -78,7 +78,7 @@ subprojects {
                 }
                 val releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
                 val snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-                url = uri(if ((version as String).endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
+                url = uri(if ((version as String).endsWith("-SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
             }
         }
 
@@ -102,5 +102,24 @@ subprojects {
 }
 
 task("printProjectVersion") {
-    println("version: ${project.version}")
+    doFirst {
+        println("version: ${project.version}")
+    }
+}
+
+task("snapshotRelease") {
+    val versionToCheck = project.version.toString()
+    val isSnapshot = versionToCheck.endsWith("-SNAPSHOT")
+    if (isSnapshot) {
+        dependsOn(":publish")
+        doLast {
+            println("SNAPSHOT RELEASE $versionToCheck PUBLISHED")
+        }
+    } else {
+        doFirst {
+            // only build -> no publish
+            // (accidentally pushed a non -SNAPSHOT version to main)
+            println("NO SNAPSHOT RELEASE WILL BE CREATED -> version '$versionToCheck' is no snapshot")
+        }
+    }
 }
