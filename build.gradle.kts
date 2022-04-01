@@ -107,7 +107,7 @@ task("printProjectVersion") {
     }
 }
 
-task("snapshotRelease") {
+task("releaseSnapshot") {
     val versionToCheck = project.version.toString()
     val isSnapshot = versionToCheck.endsWith("-SNAPSHOT")
     if (isSnapshot) {
