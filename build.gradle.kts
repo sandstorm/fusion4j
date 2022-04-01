@@ -36,14 +36,16 @@ allprojects {
 subprojects {
     apply(plugin = "maven-publish")
     apply(plugin = "signing")
+}
 
+evaluationDependsOnChildren()
+subprojects {
     // publishing
     publishing {
         publications {
             create<MavenPublication>(project.name) {
                 pom {
-                    //packaging = "jar"
-                    //name.set("<libraryname>")
+                    name.set("fusion4j - ${project.name}")
                     description.set(project.description)
                     url.set("https://github.com/sandstorm/fusion4j")
                     licenses {
@@ -91,7 +93,6 @@ subprojects {
             if (inMemorySigning) {
                 val signingKey: String by project
                 val signingPassword: String by project
-                println(signingKey)
                 useInMemoryPgpKeys(signingKey, signingPassword)
             }
 
