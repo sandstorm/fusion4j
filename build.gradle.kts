@@ -108,18 +108,17 @@ task("printProjectVersion") {
 }
 
 task("releaseSnapshot") {
-    val versionToCheck = project.version.toString()
-    val isSnapshot = versionToCheck.endsWith("-SNAPSHOT")
-    if (isSnapshot) {
-        dependsOn(":publish")
-        doLast {
-            println("SNAPSHOT RELEASE $versionToCheck PUBLISHED")
+    dependsOn("publish")
+    doLast {
+        println("CREATING SNAPSHOT RELEASE '${project.version}' ...")
+    }
+    onlyIf {
+        // only build -> no publish
+        // (accidentally pushed a non -SNAPSHOT version to main)
+        val isSnapshot = project.version.toString().endsWith("-SNAPSHOT")
+        if (!isSnapshot) {
+            println("NO SNAPSHOT RELEASE WILL BE CREATED -> version '${project.version}' is no snapshot")
         }
-    } else {
-        doFirst {
-            // only build -> no publish
-            // (accidentally pushed a non -SNAPSHOT version to main)
-            println("NO SNAPSHOT RELEASE WILL BE CREATED -> version '$versionToCheck' is no snapshot")
-        }
+        isSnapshot
     }
 }
