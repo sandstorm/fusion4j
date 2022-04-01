@@ -107,18 +107,13 @@ task("printProjectVersion") {
     }
 }
 
-task("releaseSnapshot") {
-    dependsOn("publish")
+task("assertSnapshotVersion") {
     doLast {
-        println("CREATING SNAPSHOT RELEASE '${project.version}' ...")
-    }
-    onlyIf {
-        // only build -> no publish
-        // (accidentally pushed a non -SNAPSHOT version to main)
         val isSnapshot = project.version.toString().endsWith("-SNAPSHOT")
         if (!isSnapshot) {
-            println("NO SNAPSHOT RELEASE WILL BE CREATED -> version '${project.version}' is no snapshot")
+            throw IllegalArgumentException("NO SNAPSHOT RELEASE WILL BE CREATED -> version '${project.version}' is no snapshot")
+        } else {
+            println("CREATING SNAPSHOT RELEASE '${project.version}' ...")
         }
-        isSnapshot
     }
 }

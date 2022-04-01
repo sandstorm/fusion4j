@@ -5,7 +5,7 @@ on:
       - 'main'
 
 jobs:
-  release:
+  release-snapshot:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,10 +21,10 @@ jobs:
       - name: Build with Gradle
         uses: gradle/gradle-build-action@937999e9cc2425eddc7fd62d1053baf041147db7
         with:
-          # this will trigger a build in all cases, followed by a snapshot release
-          # publishing if the version from the gradle.properties ends with -SNAPSHOT
-          # (which should always be true)
-          arguments: clean build releaseSnapshot --stacktrace
+          # this will trigger a build, followed by a snapshot release.
+          # publishing will only happen, if the version from the gradle.properties
+          # ends with -SNAPSHOT (which should always be true)
+          arguments: clean build assertSnapshotVersion publish --stacktrace
         env:
           ORG_GRADLE_PROJECT_inMemorySigning: true
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
