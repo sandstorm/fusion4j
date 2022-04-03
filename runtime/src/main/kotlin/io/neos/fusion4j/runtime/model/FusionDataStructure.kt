@@ -30,7 +30,7 @@ package io.neos.fusion4j.runtime.model
 class FusionDataStructure<T>(
     val data: List<Pair<String, T>>
 ) : List<Pair<String, T>>, Map<String, T> {
-    val valueList: List<T> by lazy { data.map { it.second } }
+    val valueList: List<T> get() = data.map { it.second }
 
     // collection
     override val size: Int get() = data.size

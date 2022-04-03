@@ -49,25 +49,20 @@ private val log: KLogger = KotlinLogging.logger {}
 class RawFusionIndex(
     val pathIndex: PathIndex,
     val loadOrder: FusionLoadOrder,
-    pathValues: Map<AbsoluteFusionPathName, PathResolveResult>,
-    childPaths: Map<AbsoluteFusionPathName, Map<RelativeFusionPathName, FusionValueReference>>
+    private val pathValues: Map<AbsoluteFusionPathName, PathResolveResult>,
+    private val childPaths: Map<AbsoluteFusionPathName, Map<RelativeFusionPathName, FusionValueReference>>
 ) {
 
-    private val pathValueIndex: Map<String, PathResolveResult> =
-        pathValues.mapKeys { it.key.pathAsString }
-    private val childPathIndex: Map<String, Map<RelativeFusionPathName, FusionValueReference>> =
-        childPaths.mapKeys { it.key.pathAsString }
-
-    private val directChildPathIndex: Map<String, Map<RelativeFusionPathName, FusionValueReference>> =
-        childPathIndex
+    private val directChildPathIndex: Map<AbsoluteFusionPathName, Map<RelativeFusionPathName, FusionValueReference>> =
+        childPaths
             .mapValues { entry ->
                 FusionPaths.getAllDirectChildPaths(entry.value)
                     .filterValues { it.fusionValue !is ErasedValue }
             }
 
     val allEffectiveFusionObjectImplementationClassNames: List<String> =
-        pathValueIndex
-            .filter { it.key.endsWith(".@class") }
+        pathValues
+            .filter { it.key.endsWith(FusionPaths.CLASS_META_ATTRIBUTE) }
             .map { it.value.fusionValue }
             .filterIsInstance<StringValue>()
             .map { it.value }
@@ -355,7 +350,7 @@ class RawFusionIndex(
     private fun resolveRequiredPath(
         path: AbsoluteFusionPathName
     ): PathResolveResult =
-        pathValueIndex[path.pathAsString]
+        pathValues[path]
             ?: throw FusionIndexError("Could not determine fusion value for undeclared path '${path}'")
 
     /**
@@ -365,7 +360,7 @@ class RawFusionIndex(
      * Erased values are included.
      */
     fun resolveChildPathFusionValues(path: AbsoluteFusionPathName): Map<RelativeFusionPathName, FusionValueReference> =
-        childPathIndex[path.pathAsString] ?: emptyMap()
+        childPaths[path] ?: emptyMap()
 
     /**
      * Resolves positions for all direct child paths of the given base path.
@@ -384,7 +379,7 @@ class RawFusionIndex(
      * Erased values are excluded, virtual paths are included.
      */
     fun resolveNestedAttributeFusionValues(path: AbsoluteFusionPathName): Map<RelativeFusionPathName, FusionValueReference> =
-        directChildPathIndex[path.pathAsString] ?: emptyMap()
+        directChildPathIndex[path] ?: emptyMap()
 
 }
 

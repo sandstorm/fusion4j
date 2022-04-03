@@ -155,6 +155,23 @@ class FusionRuntimeSteps : En {
             )
         }
 
+        When("I evaluate the Fusion path {string} {int} times with context vars") { path: String, times: Int, varNames: DataTable ->
+            val context = FusionContext.create(
+                varNames.asList().associateWith {
+                    if (!availableContextVariables.containsKey(it)) {
+                        fail("Test Fusion context var $it not defined; declare with steps before evaluation")
+                    }
+                    availableContextVariables[it]
+                }
+            )
+            repeat(times) {
+                evaluate(
+                    path,
+                    context
+                )
+            }
+        }
+
         Then("the evaluated output for path {string} must be of type {string}") { path: String, expectedOutputType: String ->
             if (!evaluationByPath.containsKey(path)) {
                 val error = lastRuntimeErrors[path]

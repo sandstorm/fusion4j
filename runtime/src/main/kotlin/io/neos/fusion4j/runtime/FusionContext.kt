@@ -29,7 +29,7 @@ package io.neos.fusion4j.runtime
 
 
 data class FusionContext(
-    override val contextMatroschka: List<FusionContextLayer>
+    private val contextMatroschka: List<FusionContextLayer>
 ) : FusionContextAccess {
 
     override val currentContextMap: Map<String, Any?> by lazy {

@@ -54,7 +54,7 @@ Feature: rendering performance
       """
     Given all Fusion packages are parsed
     And a Fusion runtime
-    When I evaluate the Fusion path "foo" 3 times
+    When I evaluate the Fusion path "foo" 10 times
     Then the evaluated output for path "foo" must be of type "java.lang.String"
 
   Scenario: big AFX to render
@@ -137,7 +137,7 @@ Feature: rendering performance
       """
     Given all Fusion packages are parsed
     And a Fusion runtime
-    And a Fusion data structure context variable "bigDataStructure" with the following JSON value 100000 times
+    And a Fusion data structure context variable "bigDataStructure" with the following JSON value 10000 times
       """
       {
         "foo": "bar",
@@ -147,7 +147,7 @@ Feature: rendering performance
         }
       }
       """
-    When I evaluate the Fusion path "foo" with context vars
+    When I evaluate the Fusion path "foo" 5 times with context vars
       | bigDataStructure |
     Then the evaluated output for path "foo" must be of type "java.lang.String"
 

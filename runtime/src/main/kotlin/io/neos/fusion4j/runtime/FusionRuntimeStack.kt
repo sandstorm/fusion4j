@@ -33,10 +33,6 @@ import io.neos.fusion4j.lang.model.values.ExpressionValue
 import io.neos.fusion4j.lang.model.values.FusionValue
 import io.neos.fusion4j.lang.semantic.EvaluationPath
 import io.neos.fusion4j.lang.semantic.FusionObjectInstance
-import mu.KLogger
-import mu.KotlinLogging
-
-private val log: KLogger = KotlinLogging.logger {}
 
 /**
  * Implementation Detail of [FusionRuntime], stored inside [DefaultImplementationRuntimeAccess]. See these classes for further docs.
@@ -45,16 +41,14 @@ private val log: KLogger = KotlinLogging.logger {}
  */
 data class FusionRuntimeStack(
     val initialContext: FusionContext,
-    val currentStack: List<FusionStackElement>
+    val currentStack: List<FusionStackElement>,
+    val currentStackItem: FusionStackElement? = null
 ) {
-
-    val currentStackItem: FusionStackElement? = currentStack.firstOrNull()
-
     val currentEvaluationPath: EvaluationPath?
         get() = currentStackItem?.evaluationPath
 
-    val currentContext: FusionContext =
-        currentStackItem?.context ?: initialContext
+    val currentContext: FusionContext
+        get() = currentStackItem?.context ?: initialContext
 
     private fun nextElement(
         contextLayer: FusionContextLayer,
@@ -62,12 +56,11 @@ data class FusionRuntimeStack(
     ): FusionRuntimeStack {
         val nextDepth = currentStack.size + 1
         val nextContext = currentContext.push(contextLayer)
-        //val nextContext = if (contextLayer.empty) currentContext else currentContext.push(contextLayer)
         val nextStackElement = factory.invoke(nextContext, nextDepth)
-        //log.debug { "new stack element $nextStackElement" }
         return FusionRuntimeStack(
             initialContext,
-            listOf(nextStackElement) + currentStack
+            currentStack + nextStackElement,
+            nextStackElement
         )
     }
 

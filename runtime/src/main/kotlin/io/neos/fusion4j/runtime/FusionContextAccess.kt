@@ -32,7 +32,6 @@ package io.neos.fusion4j.runtime
  */
 interface FusionContextAccess {
 
-    val contextMatroschka: List<FusionContextLayer>
     val currentContextMap: Map<String, Any?>
 
 }
