@@ -161,7 +161,8 @@ class PositionalArraySorter(
             foundSoFar: Set<Pair<RelativeFusionPathName, RelativeFusionPathName>>
         ) {
             if (foundSoFar.any { it.first == entry }) {
-                throw FusionSemanticError("Cycle detected in key position before reference: ${entry}, cycle: $foundSoFar")
+                throw FusionSemanticError("Cycle detected in key position before reference: " +
+                        "${entry.pathAsString}, cycle: ${foundSoFar.map { it.first.pathAsString to it.second.pathAsString }}")
             }
             val allRefTargets = beforeByRefKey
                 .filter { it.value.any { pair -> pair.first == entry } }

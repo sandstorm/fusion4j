@@ -27,19 +27,45 @@
 
 package io.neos.fusion4j.neos
 
+import org.junit.Ignore
 import org.junit.Test
 import java.io.StringWriter
 
+@Ignore
 class PerformanceCompareToPlainKotlinTest {
 
     @Test
     fun test_stringLoop() {
-        testWithTiming("string loop") {
-            val writer = StringWriter()
-            (0..1000).forEach {
-                writer.write("foo bar $it")
+        testWithTiming("string concat") {
+            var value = ""
+            (0..100000).forEach {
+                value += "foo bar $it"
             }
-            println("${writer.toString().length} bytes")
+            println("${value.length} bytes")
+        }
+    }
+
+    @Test
+    fun teststring() {
+        testWithTiming("joinToString") {
+            println(
+                (1..100000)
+                    .joinToString {
+                        "$it aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                    }
+                    .length
+            )
+        }
+    }
+
+    @Test
+    fun test2() {
+        testWithTiming("string writer") {
+            val writer = StringWriter()
+            for (idx in (1..100000)) {
+                writer.append("$idx aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+            }
+            println(writer.toString().length)
         }
     }
 

@@ -48,12 +48,12 @@ class EelErrorMessage(
         get() =
             """
             ${problemDescription.rootCauseMessage}
-            source: $fusionFile
+            source: ${fusionFile.identifierAsString}
             hints: ${fusionFile.buildHintMessage(astReference)}
             expression: $expression
             offending: '$offendingExpression' at line $offendingLine char $offendingCharPositionInLine
             problem: ${problemDescription.fullMessage}
-            element: $elementIdentifier
+            element: ${elementIdentifier.fullyQualifiedIdentifier}
             code: $astReference
             """.trimIndent()
 

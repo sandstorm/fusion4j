@@ -178,7 +178,7 @@ class FusionIndexSteps : En {
                     assertEquals(
                         "prototype attribute absolute path mismatch",
                         expectedAttribute.absolutePath,
-                        actualAttribute.absolutePath.pathAsString
+                        actualAttribute.absolutePath.pathAsString.trimStart('/')
                     )
                     assertEquals(
                         "prototype attribute value mismatch",
@@ -418,7 +418,7 @@ class FusionIndexSteps : En {
         assertEquals(
             "instance attribute absolute path mismatch",
             absolutePath,
-            actualAttribute.absolutePath.pathAsString
+            actualAttribute.absolutePath.pathAsString.trimStart('/')
         )
         assertEquals(
             "instance attribute value mismatch",
