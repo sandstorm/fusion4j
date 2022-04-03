@@ -31,7 +31,7 @@ class StandalonePathSourceIdentifier(
     val path: String
 ) : FusionSourceIdentifier {
 
-    override fun toReadableString(): String = path
-    override fun toString(): String = toReadableString()
+    override val identifierAsString: String = path
+    override fun toString(): String = identifierAsString
 
 }

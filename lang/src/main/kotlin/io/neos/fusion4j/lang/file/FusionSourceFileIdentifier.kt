@@ -29,8 +29,6 @@ package io.neos.fusion4j.lang.file
 
 import io.neos.fusion4j.lang.model.FusionPackageName
 import io.neos.fusion4j.lang.model.decl.AstReference
-import io.neos.fusion4j.lang.model.decl.FusionLangElement
-
 
 data class FusionSourceFileIdentifier(
     val type: String,
@@ -42,7 +40,7 @@ data class FusionSourceFileIdentifier(
 
     val parentDirectoryName: String = resourceName.parentDirectoryName
 
-    override fun toReadableString(): String = identifier
+    override val identifierAsString: String = identifier
     override fun toString(): String = identifier
 
     fun buildHintMessage(line: Int, char: Int): String =

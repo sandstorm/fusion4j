@@ -46,7 +46,13 @@ data class FusionContext(
     }
 
     fun push(nextContext: FusionContextLayer): FusionContext =
-        FusionContext(listOf(nextContext) + contextMatroschka)
+        if (nextContext.empty) {
+            this
+        } else {
+            FusionContext(listOf(nextContext) + contextMatroschka)
+        }
+
+    override fun toString(): String = "FusionContext"
 
     companion object {
         fun create(initialContext: Map<String, Any?>, layerName: String = "init"): FusionContext =

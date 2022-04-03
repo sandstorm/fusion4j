@@ -66,7 +66,7 @@ interface AfxFusionApi {
         )
 
         fun isTagMetaAttribute(attributeName: String): Boolean =
-            TAG_META_ATTRIBUTES.any { attributeName.startsWith("${it.toReadableString()}.") }
+            TAG_META_ATTRIBUTES.any { attributeName.startsWith("${it.pathAsString}.") }
 
     }
 

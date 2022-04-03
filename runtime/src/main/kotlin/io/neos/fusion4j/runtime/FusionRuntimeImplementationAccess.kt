@@ -86,7 +86,7 @@ interface FusionRuntimeImplementationAccess {
     fun createNullAttributeError(
         attributeKey: RelativeFusionPathName
     ): FusionRuntimeException =
-        createRuntimeError("The value of attribute '${attributeKey.toReadableString()}' must not be null")
+        createRuntimeError("The value of attribute '${attributeKey.pathAsString}' must not be null")
 
     fun createRuntimeError(
         message: String,

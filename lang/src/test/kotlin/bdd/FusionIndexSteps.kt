@@ -173,12 +173,12 @@ class FusionIndexSteps : En {
                     assertEquals(
                         "prototype attribute relative path mismatch",
                         expectedAttribute.relativePath,
-                        actualAttribute.relativePath.toReadableString()
+                        actualAttribute.relativePath.pathAsString
                     )
                     assertEquals(
                         "prototype attribute absolute path mismatch",
                         expectedAttribute.absolutePath,
-                        actualAttribute.absolutePath.toReadableString()
+                        actualAttribute.absolutePath.pathAsString
                     )
                     assertEquals(
                         "prototype attribute value mismatch",
@@ -316,7 +316,7 @@ class FusionIndexSteps : En {
                 assertEquals(
                     "raw path index assignment source mismatch",
                     expectedAssignment.source,
-                    actualAssignment.sourceIdentifier.toReadableString()
+                    actualAssignment.sourceIdentifier.identifierAsString
                 )
             }
         }
@@ -413,12 +413,12 @@ class FusionIndexSteps : En {
         assertEquals(
             "instance attribute relative path mismatch",
             relativePath,
-            actualAttribute.relativePath.toReadableString()
+            actualAttribute.relativePath.pathAsString
         )
         assertEquals(
             "instance attribute absolute path mismatch",
             absolutePath,
-            actualAttribute.absolutePath.toReadableString()
+            actualAttribute.absolutePath.pathAsString
         )
         assertEquals(
             "instance attribute value mismatch",

@@ -28,5 +28,5 @@
 package io.neos.fusion4j.lang.file
 
 interface FusionSourceIdentifier {
-    fun toReadableString(): String
+    val identifierAsString: String
 }

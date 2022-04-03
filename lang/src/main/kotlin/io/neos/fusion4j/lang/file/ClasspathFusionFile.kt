@@ -49,7 +49,7 @@ data class ClasspathFusionFile(
     override fun getInputStream(): InputStream = classLoader.getResourceAsStream(fullResourceName)
         ?: throw IllegalStateException("No classpath resource found for Fusion file $this")
 
-    override fun toString(): String = "${identifier.toReadableString()} (resource: $fullResourceName)"
+    override fun toString(): String = "${identifier.identifierAsString} (resource: $fullResourceName)"
 
     override fun equals(other: Any?): Boolean =
         other is ClasspathFusionFile && Objects.equals(identifier, other.identifier)

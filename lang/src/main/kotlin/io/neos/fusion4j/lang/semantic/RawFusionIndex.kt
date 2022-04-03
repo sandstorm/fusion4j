@@ -54,9 +54,9 @@ class RawFusionIndex(
 ) {
 
     private val pathValueIndex: Map<String, PathResolveResult> =
-        pathValues.mapKeys { it.key.toString() }
+        pathValues.mapKeys { it.key.pathAsString }
     private val childPathIndex: Map<String, Map<RelativeFusionPathName, FusionValueReference>> =
-        childPaths.mapKeys { it.key.toString() }
+        childPaths.mapKeys { it.key.pathAsString }
 
     private val directChildPathIndex: Map<String, Map<RelativeFusionPathName, FusionValueReference>> =
         childPathIndex
@@ -355,7 +355,7 @@ class RawFusionIndex(
     private fun resolveRequiredPath(
         path: AbsoluteFusionPathName
     ): PathResolveResult =
-        pathValueIndex[path.toString()]
+        pathValueIndex[path.pathAsString]
             ?: throw FusionIndexError("Could not determine fusion value for undeclared path '${path}'")
 
     /**
@@ -365,7 +365,7 @@ class RawFusionIndex(
      * Erased values are included.
      */
     fun resolveChildPathFusionValues(path: AbsoluteFusionPathName): Map<RelativeFusionPathName, FusionValueReference> =
-        childPathIndex[path.toString()] ?: emptyMap()
+        childPathIndex[path.pathAsString] ?: emptyMap()
 
     /**
      * Resolves positions for all direct child paths of the given base path.
@@ -384,7 +384,7 @@ class RawFusionIndex(
      * Erased values are excluded, virtual paths are included.
      */
     fun resolveNestedAttributeFusionValues(path: AbsoluteFusionPathName): Map<RelativeFusionPathName, FusionValueReference> =
-        directChildPathIndex[path.toString()] ?: emptyMap()
+        directChildPathIndex[path.pathAsString] ?: emptyMap()
 
 }
 

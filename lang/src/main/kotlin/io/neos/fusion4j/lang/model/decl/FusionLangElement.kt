@@ -147,7 +147,7 @@ fun identifierForPathNameSegment(
     parentElementIdentifier: FusionLangElementIdentifier,
     pathNameSegment: FusionPathNameSegment
 ): FusionLangElementIdentifier =
-    parentElementIdentifier.appendInner(pathNameSegment.toReadableString(), "PathNameSegment")
+    parentElementIdentifier.appendInner(pathNameSegment.segmentAsString, "PathNameSegment")
 
 fun identifierForPathConfiguration(
     parentElementIdentifier: FusionLangElementIdentifier,

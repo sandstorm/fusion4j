@@ -25,19 +25,30 @@
  *  - Eric Kloss
  */
 
-package io.neos.fusion4j.lang.model.decl
+package io.neos.fusion4j.neos
 
-import io.neos.fusion4j.lang.file.FusionSourceFileIdentifier
-import io.neos.fusion4j.lang.model.PrototypeCallPathSegment
+import org.junit.Test
+import java.io.StringWriter
 
+class PerformanceCompareToPlainKotlinTest {
 
-data class PathNameSegmentPrototypeCallDecl(
-    override val elementIdentifier: FusionLangElementIdentifier,
-    override val parentElementIdentifier: FusionLangElementIdentifier,
-    override val segment: PrototypeCallPathSegment,
-    val qualifiedPrototypeNameDecl: QualifiedPrototypeNameDecl,
-    override val sourceIdentifier: FusionSourceFileIdentifier,
-    override val astReference: AstReference,
-) : FusionPathNameSegmentDecl<PrototypeCallPathSegment> {
-    override fun toString(): String = segment.segmentAsString
+    @Test
+    fun test_stringLoop() {
+        testWithTiming("string loop") {
+            val writer = StringWriter()
+            (0..1000).forEach {
+                writer.write("foo bar $it")
+            }
+            println("${writer.toString().length} bytes")
+        }
+    }
+
+}
+
+private inline fun <reified TResult> testWithTiming(description: String, action: () -> TResult): TResult {
+    val start = System.currentTimeMillis()
+    val result = action()
+    val duration = System.currentTimeMillis() - start
+    println("$description took $duration ms")
+    return result
 }

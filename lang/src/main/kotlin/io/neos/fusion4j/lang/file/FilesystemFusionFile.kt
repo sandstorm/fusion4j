@@ -57,7 +57,7 @@ class FilesystemFusionFile(
 
     override fun hashCode(): Int = identifier.hashCode()
 
-    override fun toString(): String = identifier.toReadableString()
+    override fun toString(): String = identifier.identifierAsString
 
     companion object {
         const val TYPE = "file"

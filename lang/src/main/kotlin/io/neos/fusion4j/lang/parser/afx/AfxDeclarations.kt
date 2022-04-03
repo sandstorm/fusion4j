@@ -322,7 +322,7 @@ class AfxDeclarations(
         val assignmentDecls: List<FusionPathAssignmentDecl> = assignments.mapIndexed { idx, assignment ->
             val pathName = assignment.path.relativeFusionPathName
             val assignmentIdentifier = identifierForPathAssignment(bodyIdentifier, idx, pathName)
-            val pathIdentifier = identifierForPathName(bodyIdentifier, pathName.toReadableString())
+            val pathIdentifier = identifierForPathName(bodyIdentifier, pathName.pathAsString)
             val pathDecl = FusionPathNameDecl(
                 pathIdentifier,
                 bodyIdentifier,

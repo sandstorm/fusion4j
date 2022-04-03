@@ -48,6 +48,8 @@ data class FusionContextLayer(
 
         fun empty(): FusionContextLayer = FusionContextLayer(emptyList())
     }
+
+    override fun toString(): String = "FusionContextLayer"
 }
 
 data class FusionContextSubLayer(
