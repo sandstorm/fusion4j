@@ -258,11 +258,15 @@ data class FusionEvaluationRequest<TResult>(
             }
     }
 
+    /*
+    TODO move to printer if needed
     override fun toString(): String =
         "${callee.description} " +
                 "(${if (callee.publicApi) "public" else "intern"}) " +
                 "${requestType.absolutePath} ${description ?: ""}, output type: " +
                 "${outputType.name}, additional context: $additionalContextLayer"
+
+     */
 }
 
 enum class FusionEvaluationCallee(

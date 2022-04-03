@@ -95,10 +95,12 @@ data class PathIndexModel(
                 }
 
             return PathIndexModel(
+                /*
                 entrypointPaths = FusionDataStructure.fromList(
                     collected.entrypointPaths
                         .sortedBy(order)
-                ),
+                ),*/
+                entrypointPaths = FusionDataStructure.fromList(allPaths),
                 prototypePaths = FusionDataStructure.fromList(
                     collected.prototypePaths
                         .sortedBy(order)

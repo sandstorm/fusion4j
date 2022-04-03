@@ -34,6 +34,10 @@ import io.neos.fusion4j.lang.semantic.FusionValueReference
 import io.neos.fusion4j.lang.semantic.RawFusionIndex
 import io.neos.fusion4j.runtime.*
 import io.neos.fusion4j.runtime.model.RuntimeFusionObjectInstance
+import mu.KLogger
+import mu.KotlinLogging
+
+private val log: KLogger = KotlinLogging.logger {}
 
 /**
  * See [EvaluationChainRuntimeAccess] for docs.
@@ -66,7 +70,10 @@ class DefaultEvaluationChainRuntimeAccess(
                 // this means probably a custom chain element
                 // TODO maybe log here for performance warning
                 // TODO sort as well?
-                else -> runtimeInstance.fusionObjectInstance.getSubAttributes(evaluationPath, subPath)
+                else -> {
+                    log.warn { "Accessing uncached instance attributes for sub-path $subPath; this might impact performance" }
+                    runtimeInstance.fusionObjectInstance.getSubAttributes(evaluationPath, subPath)
+                }
             }
         } else {
             // path evaluation

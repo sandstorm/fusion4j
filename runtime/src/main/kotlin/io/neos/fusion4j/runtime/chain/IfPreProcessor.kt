@@ -66,7 +66,7 @@ class IfPreProcessor {
         val firstFalseCondition = allConditions.firstOrNull { condition ->
             val conditionName = condition.first
             val conditionFusionValue = condition.second
-            log.debug("evaluating condition $conditionName")
+            log.debug { "evaluating condition $conditionName" }
             val evaluatedConditionValue = runtimeAccess.evaluateAttribute(
                 conditionFusionValue,
                 FusionPaths.IF_META_ATTRIBUTE,
@@ -75,12 +75,12 @@ class IfPreProcessor {
                 "@if"
             )
             if (evaluatedConditionValue.cancelled) {
-                log.warn("skipping condition $conditionName")
+                log.warn {"skipping condition $conditionName" }
                 false
             } else {
                 val value = evaluatedConditionValue.toLazy().value
                 if (value == null) {
-                    log.warn("condition $conditionName evaluated to null")
+                    log.warn {"condition $conditionName evaluated to null" }
                     true
                 } else {
                     !value

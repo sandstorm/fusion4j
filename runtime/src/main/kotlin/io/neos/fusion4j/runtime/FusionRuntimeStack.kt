@@ -108,8 +108,10 @@ data class FusionRuntimeStack(
             AppliedValueEvalStackElement(evaluationPath, context, depth, appliedValueRequest)
         }
 
-
-    override fun toString(): String = "Fusion Stack:\n -> " + currentStack.joinToString("\n -  ")
+    // TODO print on error
+    fun print(): String {
+        return "Fusion Stack:\n -> " + currentStack.joinToString("\n -  ") { it.print() }
+    }
 
     companion object {
         fun initial(context: FusionContext) =
@@ -126,6 +128,8 @@ interface FusionStackElement {
     val context: FusionContext
     val depth: Int
     val associatedFusionLangElement: FusionLangElement?
+
+    fun print(): String
 }
 
 data class FusionObjectInstanceEvalStackElement(
@@ -138,7 +142,9 @@ data class FusionObjectInstanceEvalStackElement(
     override val associatedFusionLangElement: FusionLangElement? =
         fusionObjectInstance.instanceDeclaration
 
-    override fun toString(): String = "${nestedDepth()} INSTANCE | $evaluationPath"
+    override fun print(): String {
+        return "${nestedDepth()} INSTANCE | $evaluationPath"
+    }
 }
 
 data class EelExpressionEvalStackElement(
@@ -151,7 +157,9 @@ data class EelExpressionEvalStackElement(
     override val associatedFusionLangElement: FusionLangElement =
         declaration
 
-    override fun toString(): String = "${nestedDepth()} EEL | $evaluationPath"
+    override fun print(): String {
+        return "${nestedDepth()} EEL | $evaluationPath"
+    }
 }
 
 data class PrimitiveValueEvalStackElement(
@@ -164,7 +172,9 @@ data class PrimitiveValueEvalStackElement(
     override val associatedFusionLangElement: FusionLangElement =
         declaration
 
-    override fun toString(): String = "${nestedDepth()} PRIMITIVE ${primitiveValue.getReadableType()} | $evaluationPath"
+    override fun print(): String {
+        return "${nestedDepth()} PRIMITIVE ${primitiveValue.getReadableType()} | $evaluationPath"
+    }
 }
 
 data class AppliedValueEvalStackElement(
@@ -182,8 +192,9 @@ data class AppliedValueEvalStackElement(
         }
     }
 
-
-    override fun toString(): String = "${nestedDepth()} APPLIED | $evaluationPath"
+    override fun print(): String {
+        return "${nestedDepth()} APPLIED | $evaluationPath"
+    }
 }
 
 private fun FusionStackElement.nestedDepth(): String =

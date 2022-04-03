@@ -55,7 +55,6 @@ data class FusionContextSubLayer(
     val data: Map<String, Any?>
 ) {
 
-    override fun toString(): String =
-        "$layerName($data)"
+    override fun toString(): String = layerName
 
 }

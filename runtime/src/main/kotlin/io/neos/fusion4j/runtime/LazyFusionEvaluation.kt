@@ -98,6 +98,7 @@ class LazyFusionEvaluation<TResult> private constructor(
 interface EvaluationFunction<TResult> {
     val evaluationPath: EvaluationPath
     fun eval(): TResult?
+    fun describe(): String
 }
 
 class PrimitiveEvaluation<TResult>(
@@ -105,10 +106,12 @@ class PrimitiveEvaluation<TResult>(
     private val fusionValue: FusionValue,
     private val function: () -> TResult,
 ) : EvaluationFunction<TResult> {
-    override fun eval(): TResult =
-        function.invoke()
-
-    override fun toString(): String = "eval primitive $fusionValue"
+    override fun eval(): TResult {
+        return function.invoke()
+    }
+    override fun describe(): String {
+        return "eval primitive $fusionValue"
+    }
 }
 
 class AppliedValueEvaluation<TResult>(
@@ -116,10 +119,12 @@ class AppliedValueEvaluation<TResult>(
     private val appliedValueRequest: AppliedFusionValuePathRequest
 ) : EvaluationFunction<TResult> {
     @Suppress("UNCHECKED_CAST")
-    override fun eval(): TResult =
-        appliedValueRequest.appliedValue as TResult
-
-    override fun toString(): String = "eval applied ${appliedValueRequest.appliedValue}"
+    override fun eval(): TResult {
+        return appliedValueRequest.appliedValue as TResult
+    }
+    override fun describe(): String {
+        return "eval applied ${appliedValueRequest.appliedValue}"
+    }
 }
 
 class EelEvaluation<TResult>(
@@ -127,18 +132,24 @@ class EelEvaluation<TResult>(
     val expressionValue: ExpressionValue,
     private val function: () -> TResult
 ) : EvaluationFunction<TResult> {
-    override fun eval(): TResult = function.invoke()
-
-    override fun toString(): String = "eval EEL $expressionValue"
+    override fun eval(): TResult {
+        return function.invoke()
+    }
+    override fun describe(): String {
+        return "eval EEL $expressionValue"
+    }
 }
 
 class FusionObjectEvaluation<TResult>(
     override val evaluationPath: EvaluationPath,
     private val function: () -> TResult
 ) : EvaluationFunction<TResult> {
-    override fun eval(): TResult = function.invoke()
-
-    override fun toString(): String = "eval Fusion object instance $evaluationPath"
+    override fun eval(): TResult {
+        return function.invoke()
+    }
+    override fun describe(): String {
+        return "eval Fusion object instance $evaluationPath"
+    }
 }
 
 class EmptyEvaluation<TResult>(
@@ -147,8 +158,9 @@ class EmptyEvaluation<TResult>(
     override fun eval(): TResult? {
         return null
     }
-
-    override fun toString(): String = "empty evaluation"
+    override fun describe(): String {
+        return "empty evaluation"
+    }
 }
 
 class ChainMapEvaluation<TIn, TOut>(
@@ -166,7 +178,9 @@ class ChainMapEvaluation<TIn, TOut>(
         return mappedValue
     }
 
-    override fun toString(): String = "map $description"
+    override fun describe(): String {
+        return "map $description"
+    }
 }
 
 class FlatMapEvaluation<TOut>(
@@ -182,5 +196,7 @@ class FlatMapEvaluation<TOut>(
         return mappedValue
     }
 
-    override fun toString(): String = "map $description"
+    override fun describe(): String {
+        return "map $description"
+    }
 }

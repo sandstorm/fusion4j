@@ -66,6 +66,7 @@ class DefaultFusionRuntime(
                     it to implementationFactory.createInstance(it)
                 } catch (error: Throwable) {
                     log.error { "Could not pre-cache Fusion object implementation class '$it'; ${error.message}" }
+                    log.debug("full error", error)
                     null
                 }
             }
@@ -141,9 +142,9 @@ class DefaultFusionRuntime(
             runtimeInstance
         )
         if (runtimeInstance != null) {
-            log.debug("new chain for instance: ${request.requestType.absolutePath}")
+            log.debug { "new chain for instance: ${request.requestType.absolutePath}" }
         } else {
-            log.debug("new chain for path: ${request.requestType.absolutePath}")
+            log.debug { "new chain for path: ${request.requestType.absolutePath}" }
         }
 
         val evaluationChain: EvaluationChain<TResult> =
@@ -161,10 +162,10 @@ class DefaultFusionRuntime(
         val chainResult = evaluationChain.evaluateChain(lazyFusionEvaluation)
         // from this point on, the context cannot change anymore for this evaluation
 
-        log.debug(
+        log.debug {
             "chain result for ${nextStack.currentStack.first()} will be evaluated " +
                     "with context:\n    ${nextStack.currentContext.currentContextMap}"
-        )
+        }
 
         return chainResult
     }

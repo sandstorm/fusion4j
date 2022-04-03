@@ -47,8 +47,9 @@ class DefaultEelThisPointerRuntimeAccess(
     private val request: FusionEvaluationRequest<*>
 ) : EelThisPointerRuntimeAccess {
 
-    private val thisPointerPath: AbsoluteFusionPathName =
+    private val thisPointerPath: AbsoluteFusionPathName by lazy {
         FusionEvaluationRequest.resolveThisPointerPath(callstack, request)
+    }
 
     override fun hasThisPointerAttribute(pathSegment: PropertyPathSegment): Boolean {
         val relativePath = RelativeFusionPathName.fromSegments(listOf(pathSegment))
