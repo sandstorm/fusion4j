@@ -38,9 +38,9 @@ class PositionalArraySorter(
         checkNotNull(o2)
 
         val index1 = order[o1]
-            ?: throw IllegalStateException("Could not compare $o1, relative path not listed in order $order")
+            ?: throw IllegalStateException("Could not compare ${o1.pathAsString}, relative path not listed in order $order")
         val index2 = order[o2]
-            ?: throw IllegalStateException("Could not compare $o2, relative path not listed in order $order")
+            ?: throw IllegalStateException("Could not compare ${o2.pathAsString}, relative path not listed in order $order")
         return compareValues(index1, index2)
     }
 

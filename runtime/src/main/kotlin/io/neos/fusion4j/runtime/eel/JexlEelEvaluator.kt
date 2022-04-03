@@ -256,7 +256,7 @@ class JexlEelContext(
             value
         } else {
             // non-strict mode
-            log.debug("EEL Value '$name' evaluated to null")
+            //log.debug {"EEL Value '$name' evaluated to null" }
             null
         }
     }

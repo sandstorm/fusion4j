@@ -86,6 +86,12 @@ data class FusionObjectInstance(
         )
             .filterValues { it.fusionValue !is ErasedValue }
 
+    val declaredAttributes: Map<RelativeFusionPathName, DeclaredFusionAttribute> =
+        attributes.mapValues { DeclaredFusionAttribute(it.value) }
+
+    val declaredPropertyAttributes: Map<RelativeFusionPathName, DeclaredFusionAttribute> =
+        declaredAttributes.filterKeys { it.propertyAttribute }
+
     val attributePositions: Map<RelativeFusionPathName, KeyPosition> =
         FusionPaths.getAllKeyPositions(childPaths, FusionPathName.current(), keyPositionSubPath)
 
@@ -108,11 +114,25 @@ data class FusionObjectInstance(
     val processorAttributes: Map<RelativeFusionPathName, FusionValueReference> =
         getDeclaredSubAttributes(FusionPaths.PROCESS_META_ATTRIBUTE)
 
+    val declaredApplyAttributes = getDeclaredSubAttributes(FusionPaths.APPLY_META_ATTRIBUTE)
+
+    val positionalArraySorter: PositionalArraySorter =
+        PositionalArraySorter.createSorter(
+            declaredPropertyAttributes.keys,
+            attributePositions
+        )
+
+    val instancePropertyAttributesSorted: List<DeclaredFusionAttribute> =
+        declaredPropertyAttributes.values
+            .sortedWith { o1, o2 ->
+                positionalArraySorter
+                    .compare(o1.relativePath, o2.relativePath)
+            }
+
     val applyAttributes: List<Pair<RelativeFusionPathName, FusionValueReference>> = run {
-        val declaredApplyAttributes = getDeclaredSubAttributes(FusionPaths.APPLY_META_ATTRIBUTE)
         val applyAttributePositions =
             FusionPaths.getAllKeyPositions(childPaths, FusionPaths.APPLY_META_ATTRIBUTE, keyPositionSubPath)
-        val positionalArraySorter: PositionalArraySorter = PositionalArraySorter.createSorter(
+        val applySorter: PositionalArraySorter = PositionalArraySorter.createSorter(
             declaredApplyAttributes.keys,
             applyAttributePositions
         )
@@ -121,7 +141,7 @@ data class FusionObjectInstance(
             .sortedWith(
                 Comparator.comparing(
                     Pair<RelativeFusionPathName, *>::first,
-                    positionalArraySorter
+                    applySorter
                 )
             )
     }

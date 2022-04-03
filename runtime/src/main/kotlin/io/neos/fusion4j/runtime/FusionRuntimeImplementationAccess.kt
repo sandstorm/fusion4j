@@ -39,9 +39,9 @@ import io.neos.fusion4j.lang.semantic.RawFusionIndex
 import io.neos.fusion4j.runtime.chain.ContextInitializationRuntimeAccess
 import io.neos.fusion4j.runtime.chain.EvaluationChainRuntimeAccess
 import io.neos.fusion4j.runtime.eel.EelThisPointerRuntimeAccess
-import io.neos.fusion4j.runtime.model.DeclaredFusionAttribute
+import io.neos.fusion4j.lang.semantic.DeclaredFusionAttribute
 import io.neos.fusion4j.runtime.model.EvaluationResult
-import io.neos.fusion4j.runtime.model.FusionAttribute
+import io.neos.fusion4j.lang.semantic.FusionAttribute
 import io.neos.fusion4j.runtime.model.RuntimeFusionObjectInstance
 
 /**
@@ -72,6 +72,10 @@ interface FusionRuntimeImplementationAccess {
 
     val instancePrototype: FusionPrototype
         get() = runtimeInstance.fusionObjectInstance.prototype
+
+    val propertyAttributesSorted: List<FusionAttribute>
+        get() = runtimeInstance.propertyAttributesSorted
+
 
     fun getRequiredPropertyAttribute(key: RelativeFusionPathName): FusionAttribute =
         propertyAttributes[key]
@@ -105,14 +109,6 @@ interface FusionRuntimeImplementationAccess {
             attributePath,
             runtimeInstance.fusionObjectInstance.instanceDeclaration
         )
-
-    val propertyAttributesSorted: List<FusionAttribute>
-        get() =
-            propertyAttributes.values
-                .sortedWith { o1, o2 ->
-                    runtimeInstance.positionalArraySorter
-                        .compare(o1.relativePath, o2.relativePath)
-                }
 
     fun <TResult> evaluateAbsolutePath(
         path: AbsoluteFusionPathName,

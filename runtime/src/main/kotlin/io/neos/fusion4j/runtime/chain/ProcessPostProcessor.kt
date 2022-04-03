@@ -61,7 +61,7 @@ class ProcessPostProcessor {
                     "@process-value",
                     mapOf(CONTEXT_VAR_NAME to result.toLazy())
                 )
-                log.debug { "processing value $result with ${processorAttribute.relativePath}" }
+                //log.debug { "processing value $result with ${processorAttribute.relativePath}" }
                 val processorResult = runtimeAccess.evaluateAttribute(
                     processorAttribute,
                     FusionPaths.PROCESS_META_ATTRIBUTE,
@@ -70,7 +70,7 @@ class ProcessPostProcessor {
                 )
                 // @if working - a false condition on the processor itself result in a pass-through processor
                 if (processorResult.cancelled) {
-                    log.debug {"skipping post-processor since chain is cancelled $processorResult" }
+                    //log.debug {"skipping post-processor since chain is cancelled $processorResult" }
                     result
                 } else {
                     result.mapResult("@process-${processorAttribute.relativePath}") {

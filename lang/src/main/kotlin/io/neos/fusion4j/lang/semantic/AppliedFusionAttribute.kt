@@ -25,8 +25,10 @@
  *  - Eric Kloss
  */
 
-package io.neos.fusion4j.runtime.model
+package io.neos.fusion4j.lang.semantic
 
+import io.neos.fusion4j.lang.model.AbsoluteFusionPathName
+import io.neos.fusion4j.lang.model.RelativeFusionPathName
 import io.neos.fusion4j.lang.model.decl.FusionLangElement
 
 /**
@@ -36,10 +38,28 @@ import io.neos.fusion4j.lang.model.decl.FusionLangElement
  *
  * It is later used to keep AST references for nice error messages that involves
  * an applied attribute.
- *
- * @see AppliedFusionAttribute.valueDecl
  */
-data class AppliedAttributeSource(
-    val value: Any?,
-    val declaration: FusionLangElement
-)
+data class AppliedFusionAttribute(
+    override val relativePath: RelativeFusionPathName,
+    override val valueDecl: FusionLangElement,
+    val absolutePath: AbsoluteFusionPathName,
+    val evaluatedValue: Any?
+) : FusionAttribute {
+    override val untyped: Boolean = false
+    override val fusionObjectType: Boolean = false
+
+    companion object {
+        fun create(
+            basePath: AbsoluteFusionPathName,
+            attributeKey: RelativeFusionPathName,
+            valueDecl: FusionLangElement,
+            evaluatedValue: Any?
+        ): AppliedFusionAttribute =
+            AppliedFusionAttribute(
+                attributeKey,
+                valueDecl,
+                basePath + attributeKey,
+                evaluatedValue
+            )
+    }
+}

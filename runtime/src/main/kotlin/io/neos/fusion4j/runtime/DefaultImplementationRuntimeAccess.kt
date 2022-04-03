@@ -33,7 +33,7 @@ import io.neos.fusion4j.lang.model.RelativeFusionPathName
 import io.neos.fusion4j.lang.semantic.PrototypeStore
 import io.neos.fusion4j.lang.semantic.RawFusionIndex
 import io.neos.fusion4j.runtime.model.EvaluationResult
-import io.neos.fusion4j.runtime.model.FusionAttribute
+import io.neos.fusion4j.lang.semantic.FusionAttribute
 import io.neos.fusion4j.runtime.model.RuntimeFusionObjectInstance
 
 /**

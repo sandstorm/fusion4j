@@ -25,14 +25,30 @@
  *  - Eric Kloss
  */
 
-package io.neos.fusion4j.runtime.model
+package io.neos.fusion4j.lang.semantic
 
+import io.neos.fusion4j.lang.model.AbsoluteFusionPathName
 import io.neos.fusion4j.lang.model.RelativeFusionPathName
 import io.neos.fusion4j.lang.model.decl.FusionLangElement
+import io.neos.fusion4j.lang.model.values.FusionObjectValue
+import io.neos.fusion4j.lang.model.values.FusionValue
+import io.neos.fusion4j.lang.model.values.UntypedValue
 
-interface FusionAttribute {
-    val relativePath: RelativeFusionPathName
-    val untyped: Boolean
-    val valueDecl: FusionLangElement
-    val fusionObjectType: Boolean
+data class DeclaredFusionAttribute(
+    val valueReference: FusionValueReference
+) : FusionAttribute {
+    override val relativePath: RelativeFusionPathName = valueReference.relativePath
+    override val untyped: Boolean = valueReference.fusionValue is UntypedValue
+    override val valueDecl: FusionLangElement = valueReference.decl
+    override val fusionObjectType: Boolean = valueReference.fusionValue is FusionObjectValue
+
+    companion object {
+        fun runtimeAttribute(
+            fusionValue: FusionValue,
+            basePath: AbsoluteFusionPathName,
+            path: RelativeFusionPathName,
+            decl: FusionLangElement
+        ) =
+            DeclaredFusionAttribute(FusionValueReference(fusionValue, decl, basePath + path, path))
+    }
 }

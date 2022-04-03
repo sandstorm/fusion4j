@@ -38,9 +38,10 @@ import io.neos.fusion4j.lang.util.FusionProfiler
 import io.neos.fusion4j.runtime.chain.*
 import io.neos.fusion4j.runtime.eel.EelEvaluator
 import io.neos.fusion4j.runtime.eel.EelThisPointerRuntimeAccess
-import io.neos.fusion4j.runtime.model.AppliedAttributeSource
+import io.neos.fusion4j.runtime.model.AppliedValuesRuntimeFusionObjectInstance
 import io.neos.fusion4j.runtime.model.FusionDataStructure
 import io.neos.fusion4j.runtime.model.RuntimeFusionObjectInstance
+import io.neos.fusion4j.runtime.model.StaticRuntimeFusionObjectInstance
 import mu.KLogger
 import mu.KotlinLogging
 
@@ -141,11 +142,13 @@ class DefaultFusionRuntime(
             request,
             runtimeInstance
         )
+        /*
         if (runtimeInstance != null) {
             log.debug { "new chain for instance: ${request.requestType.absolutePath}" }
         } else {
             log.debug { "new chain for path: ${request.requestType.absolutePath}" }
         }
+         */
 
         val evaluationChain: EvaluationChain<TResult> =
             EvaluationChain(runtimeAccessForChain, request.outputType)
@@ -162,10 +165,12 @@ class DefaultFusionRuntime(
         val chainResult = evaluationChain.evaluateChain(lazyFusionEvaluation)
         // from this point on, the context cannot change anymore for this evaluation
 
+        /*
         log.debug {
             "chain result for ${nextStack.currentStack.first()} will be evaluated " +
                     "with context:\n    ${nextStack.currentContext.currentContextMap}"
         }
+        */
 
         return chainResult
     }
@@ -458,7 +463,10 @@ class DefaultFusionRuntime(
         nextStack: FusionRuntimeStack,
         request: FusionEvaluationRequest<*>
     ): RuntimeFusionObjectInstance {
-        val appliedAttributes: Map<RelativeFusionPathName, AppliedAttributeSource> =
+        if (fusionObjectInstance.applyAttributes.isEmpty()) {
+            return StaticRuntimeFusionObjectInstance(fusionObjectInstance)
+        }
+        val appliedAttributes: Map<RelativeFusionPathName, AppliedFusionAttribute> =
             fusionObjectInstance.applyAttributes
                 // already sorted via @position
                 .map { applyEntry ->
@@ -484,8 +492,15 @@ class DefaultFusionRuntime(
                             applyValue
                         )
                         when (val applyResult = FusionRuntime.unwrapLazy(lazyApplyResult.toLazy())) {
-                            is List<*> -> renderApplyResult(applyName, applyResult, nextStack, declaration)
+                            is List<*> -> renderApplyResult(
+                                fusionObjectInstance,
+                                applyName,
+                                applyResult,
+                                nextStack,
+                                declaration
+                            )
                             is FusionDataStructure<*> -> renderApplyResult(
+                                fusionObjectInstance,
                                 applyName,
                                 applyResult,
                                 nextStack,
@@ -504,18 +519,19 @@ class DefaultFusionRuntime(
                 .fold(emptyMap()) { result, current ->
                     result + current.toMap()
                 }
-        return RuntimeFusionObjectInstance(
+        return AppliedValuesRuntimeFusionObjectInstance(
             fusionObjectInstance,
             appliedAttributes
         )
     }
 
     private fun renderApplyResult(
+        fusionObjectInstance: FusionObjectInstance,
         applyName: RelativeFusionPathName,
         applyResult: List<*>,
         nextStack: FusionRuntimeStack,
         declaration: FusionLangElement
-    ): List<Pair<RelativeFusionPathName, AppliedAttributeSource>> =
+    ): List<Pair<RelativeFusionPathName, AppliedFusionAttribute>> =
         applyResult
             .filterNotNull()
             .map {
@@ -523,9 +539,11 @@ class DefaultFusionRuntime(
                     val property = FusionPathNameBuilder.relative().property(
                         if (it.first is String) it.first as String else it.first!!.toString()
                     ).build()
-                    property to AppliedAttributeSource(
+                    property to AppliedFusionAttribute.create(
+                        fusionObjectInstance.instanceDeclarationPath,
+                        property,
+                        declaration,
                         it.second,
-                        declaration
                     )
                 } else {
                     throw FusionRuntimeException(

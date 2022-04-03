@@ -60,7 +60,7 @@ class LazyFusionEvaluation<TResult> private constructor(
     fun toLazy(): Lazy<TResult?> {
         return lazy {
             val value = evaluationFunction.eval()
-            log.debug { "evaluated $request with $value" }
+            // log.debug { "evaluated $request with $value" }
             value
         }
     }
@@ -172,9 +172,9 @@ class ChainMapEvaluation<TIn, TOut>(
 
     override fun eval(): TOut? {
         val value = previousEvaluation.eval()
-        log.debug("mapping $value with $description")
+        //log.debug("mapping $value with $description")
         val mappedValue = mapper.invoke(value)
-        log.debug("mapping result: $mappedValue")
+        //log.debug("mapping result: $mappedValue")
         return mappedValue
     }
 
@@ -192,7 +192,7 @@ class FlatMapEvaluation<TOut>(
 
     override fun eval(): TOut? {
         val mappedValue = mapper.invoke(previousEvaluation::eval)
-        log.debug("flat mapping result: $mappedValue")
+        //log.debug("flat mapping result: $mappedValue")
         return mappedValue
     }
 

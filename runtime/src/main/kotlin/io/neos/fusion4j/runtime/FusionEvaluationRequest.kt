@@ -34,9 +34,9 @@ import io.neos.fusion4j.lang.model.RelativeFusionPathName
 import io.neos.fusion4j.lang.model.decl.FusionLangElement
 import io.neos.fusion4j.lang.semantic.FusionObjectInstance
 import io.neos.fusion4j.lang.semantic.FusionValueReference
-import io.neos.fusion4j.runtime.model.AppliedFusionAttribute
-import io.neos.fusion4j.runtime.model.DeclaredFusionAttribute
-import io.neos.fusion4j.runtime.model.FusionAttribute
+import io.neos.fusion4j.lang.semantic.AppliedFusionAttribute
+import io.neos.fusion4j.lang.semantic.DeclaredFusionAttribute
+import io.neos.fusion4j.lang.semantic.FusionAttribute
 import io.neos.fusion4j.runtime.model.RuntimeFusionObjectInstance
 
 data class FusionEvaluationRequest<TResult>(

@@ -66,7 +66,7 @@ class IfPreProcessor {
         val firstFalseCondition = allConditions.firstOrNull { condition ->
             val conditionName = condition.first
             val conditionFusionValue = condition.second
-            log.debug { "evaluating condition $conditionName" }
+            //log.debug { "evaluating condition $conditionName" }
             val evaluatedConditionValue = runtimeAccess.evaluateAttribute(
                 conditionFusionValue,
                 FusionPaths.IF_META_ATTRIBUTE,

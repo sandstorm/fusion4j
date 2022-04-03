@@ -64,7 +64,7 @@ data class FusionRuntimeStack(
         val nextContext = currentContext.push(contextLayer)
         //val nextContext = if (contextLayer.empty) currentContext else currentContext.push(contextLayer)
         val nextStackElement = factory.invoke(nextContext, nextDepth)
-        log.debug { "new stack element $nextStackElement" }
+        //log.debug { "new stack element $nextStackElement" }
         return FusionRuntimeStack(
             initialContext,
             listOf(nextStackElement) + currentStack
