@@ -74,6 +74,9 @@ class DefaultFusionRuntime(
             .toMap()
     }
 
+    private val evaluationChain: EvaluationChain = EvaluationChain()
+
+
     override fun <TResult> evaluateLazy(
         path: AbsoluteFusionPathName,
         outputType: Class<TResult>,
@@ -150,8 +153,6 @@ class DefaultFusionRuntime(
         }
          */
 
-        val evaluationChain: EvaluationChain<TResult> =
-            EvaluationChain(runtimeAccessForChain, request.outputType)
         val lazyFusionEvaluation = LazyFusionEvaluation.createEvaluation(
             request,
             nextStack,
@@ -162,7 +163,7 @@ class DefaultFusionRuntime(
         //   1. create context based on previous layer
         //   2. process chain with immutable context
         //  both steps have a common runtime stack element
-        val chainResult = evaluationChain.evaluateChain(lazyFusionEvaluation)
+        val chainResult = evaluationChain.evaluateChain(lazyFusionEvaluation, runtimeAccessForChain, request.outputType)
         // from this point on, the context cannot change anymore for this evaluation
 
         /*

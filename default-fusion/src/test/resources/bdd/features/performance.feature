@@ -137,7 +137,7 @@ Feature: rendering performance
       """
     Given all Fusion packages are parsed
     And a Fusion runtime
-    And a Fusion data structure context variable "bigDataStructure" with the following JSON value 10000 times
+    And a Fusion data structure context variable "bigDataStructure" with the following JSON value 100000 times
       """
       {
         "foo": "bar",

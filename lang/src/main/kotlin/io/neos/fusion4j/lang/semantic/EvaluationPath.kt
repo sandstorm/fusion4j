@@ -55,9 +55,10 @@ data class EvaluationPath(
 
     // TODO print on error
     fun print(): String {
-        return segments.joinToString("") { "${it.nestedPath}${if (it.type != null) "<${it.type}>" else ""}" }
+        return ""//segments.joinToString("") { "${it.nestedPath}${if (it.type != null) "<${it.type}>" else ""}" }
     }
 
+    override fun toString(): String = "EvaluationPath"
 
     companion object {
         fun initialAbsolute(absolutePath: AbsoluteFusionPathName, type: QualifiedPrototypeName?): EvaluationPath {

@@ -28,25 +28,32 @@
 package io.neos.fusion4j.runtime
 
 data class FusionContextLayer(
-    val data: List<FusionContextSubLayer>
+    val subLayers: List<String>,
+    val effectiveContextMap: Map<String, Any?>
 ) {
-
-    val empty: Boolean = data.isEmpty()
+    val empty: Boolean = effectiveContextMap.isEmpty()
 
     fun appendSubLayer(
         layerName: String,
         entries: Map<String, Any?>
-    ): FusionContextLayer = FusionContextLayer(
-        data + FusionContextSubLayer(layerName, entries)
-    )
+    ): FusionContextLayer =
+        if (entries.isEmpty()) {
+            this
+        } else {
+            FusionContextLayer(
+                subLayers + layerName,
+                effectiveContextMap + entries
+            )
+        }
 
     companion object {
         fun layerOf(
             layerName: String,
             entries: Map<String, Any?>
-        ): FusionContextLayer = FusionContextLayer(listOf(FusionContextSubLayer(layerName, entries)))
+        ): FusionContextLayer =
+            FusionContextLayer(listOf(layerName), entries)
 
-        fun empty(): FusionContextLayer = FusionContextLayer(emptyList())
+        fun empty(): FusionContextLayer = FusionContextLayer(emptyList(), emptyMap())
     }
 
     override fun toString(): String = "FusionContextLayer"

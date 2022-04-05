@@ -42,6 +42,7 @@ dependencyResolutionManagement {
             library("antlr-runtime", "org.antlr", "antlr4-runtime").versionRef("antlr")
             library("apache-jexl", "org.apache.commons:commons-jexl3:3.2.1")
             library("apache-text", "org.apache.commons:commons-text:1.9")
+            library("apache-collections4", "org.apache.commons:commons-collections4:4.4")
             library("klogger", "io.github.microutils:kotlin-logging-jvm:2.1.21")
             library("logback-core", "ch.qos.logback", "logback-core").versionRef("logback")
             library("logback-classic", "ch.qos.logback", "logback-classic").versionRef("logback")

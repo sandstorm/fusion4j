@@ -41,7 +41,8 @@ import io.neos.fusion4j.lang.semantic.FusionObjectInstance
  */
 data class FusionRuntimeStack(
     val initialContext: FusionContext,
-    val currentStack: List<FusionStackElement>,
+    //private val currentStack: List<FusionStackElement>,
+    val currentDepth: Int = 0,
     val currentStackItem: FusionStackElement? = null
 ) {
     val currentEvaluationPath: EvaluationPath?
@@ -54,12 +55,13 @@ data class FusionRuntimeStack(
         contextLayer: FusionContextLayer,
         factory: (FusionContext, Int) -> FusionStackElement
     ): FusionRuntimeStack {
-        val nextDepth = currentStack.size + 1
+        val nextDepth = currentDepth + 1
         val nextContext = currentContext.push(contextLayer)
         val nextStackElement = factory.invoke(nextContext, nextDepth)
         return FusionRuntimeStack(
             initialContext,
-            currentStack + nextStackElement,
+            currentDepth,
+            //currentStack + nextStackElement,
             nextStackElement
         )
     }
@@ -103,14 +105,13 @@ data class FusionRuntimeStack(
 
     // TODO print on error
     fun print(): String {
-        return "Fusion Stack:\n -> " + currentStack.joinToString("\n -  ") { it.print() }
+        return "Fusion Stack: depth $currentDepth, evaluation path: ${currentStackItem?.evaluationPath}"
     }
 
     companion object {
         fun initial(context: FusionContext) =
             FusionRuntimeStack(
-                context,
-                emptyList()
+                context
             )
     }
 
@@ -120,7 +121,7 @@ interface FusionStackElement {
     val evaluationPath: EvaluationPath
     val context: FusionContext
     val depth: Int
-    val associatedFusionLangElement: FusionLangElement?
+    val associatedFusionLangElement: FusionLangElement
 
     fun print(): String
 }
@@ -132,7 +133,7 @@ data class FusionObjectInstanceEvalStackElement(
     val fusionObjectInstance: FusionObjectInstance,
 ) : FusionStackElement {
 
-    override val associatedFusionLangElement: FusionLangElement? =
+    override val associatedFusionLangElement: FusionLangElement =
         fusionObjectInstance.instanceDeclaration
 
     override fun print(): String {

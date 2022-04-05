@@ -167,7 +167,8 @@ class FusionRuntimeSteps : En {
             repeat(times) {
                 evaluate(
                     path,
-                    context
+                    context,
+                    it
                 )
             }
         }

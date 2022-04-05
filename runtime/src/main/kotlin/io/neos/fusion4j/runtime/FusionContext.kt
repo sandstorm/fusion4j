@@ -29,9 +29,11 @@ package io.neos.fusion4j.runtime
 
 
 data class FusionContext(
-    private val contextMatroschka: List<FusionContextLayer>
+    private val layers: List<String>,
+    override val currentContextMap: Map<String, Any?>
 ) : FusionContextAccess {
 
+    /*
     override val currentContextMap: Map<String, Any?> by lazy {
         contextMatroschka
             .reversed()
@@ -44,20 +46,24 @@ data class FusionContext(
                     }
             }
     }
+     */
 
     fun push(nextContext: FusionContextLayer): FusionContext =
         if (nextContext.empty) {
             this
         } else {
-            FusionContext(listOf(nextContext) + contextMatroschka)
+            FusionContext(
+                layers + nextContext.subLayers,
+                currentContextMap + nextContext.effectiveContextMap
+            )
         }
 
     override fun toString(): String = "FusionContext"
 
     companion object {
         fun create(initialContext: Map<String, Any?>, layerName: String = "init"): FusionContext =
-            FusionContext(listOf(FusionContextLayer.layerOf(layerName, initialContext)))
+            FusionContext(listOf(layerName), initialContext)
 
-        fun empty(): FusionContext = FusionContext(emptyList())
+        fun empty(): FusionContext = FusionContext(emptyList(), emptyMap())
     }
 }
