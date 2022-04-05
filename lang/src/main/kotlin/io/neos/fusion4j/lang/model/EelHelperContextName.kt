@@ -31,13 +31,17 @@ data class EelHelperContextName(
     val name: String
 ) {
     companion object {
-        val VALID_PATTERN: Regex = Regex("^[A-Z]([a-zA-Z_0-9])*$")
+        //val VALID_PATTERN: Regex = Regex("^[A-Z]([a-zA-Z_0-9])*$")
+        fun isEelHelperName(name: String): Boolean =
+            name.isNotEmpty() && name.first().isUpperCase()
     }
 
     init {
+        /*
         if (!name.matches(VALID_PATTERN)) {
             throw IllegalArgumentException("Invalid EEL helper context name $name")
         }
+         */
     }
 
     override fun toString(): String = name

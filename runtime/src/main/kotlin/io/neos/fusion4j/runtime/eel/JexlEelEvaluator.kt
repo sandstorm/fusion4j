@@ -209,16 +209,14 @@ class JexlEelContext(
     private val runtimeAccess: EelThisPointerRuntimeAccess
 ) : JexlContext {
 
-    private val delegate: MapContext by lazy {
-        MapContext(
-            fusionContext.currentContextMap +
-                    // this pointer
-                    (EelEvaluator.THIS_POINTER_CONTEXT_VARIABLE_NAME to JexlThisPointerContext(runtimeAccess))
-        )
-    }
+    private val delegate: MapContext = MapContext(
+        fusionContext.currentContextMap +
+                // this pointer
+                (EelEvaluator.THIS_POINTER_CONTEXT_VARIABLE_NAME to JexlThisPointerContext(runtimeAccess))
+    )
 
     override fun get(name: String): Any? {
-        val varResult = if (name.matches(EelHelperContextName.VALID_PATTERN)) {
+        val varResult = if (EelHelperContextName.isEelHelperName(name)) {
             // TODO how to hold / cache EEL helper instance?
             val eelHelperContextName = EelHelperContextName(name)
             if (eelHelperFactory.exists(eelHelperContextName)) {
@@ -262,7 +260,7 @@ class JexlEelContext(
     }
 
     override fun has(name: String): Boolean =
-        if (name.matches(EelHelperContextName.VALID_PATTERN)) {
+        if (EelHelperContextName.isEelHelperName(name)) {
             eelHelperFactory.exists(EelHelperContextName(name))
         } else {
             delegate.has(name)

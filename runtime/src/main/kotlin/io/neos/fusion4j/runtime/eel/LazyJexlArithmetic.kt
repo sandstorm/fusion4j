@@ -57,25 +57,18 @@ class LazyUberspect(
         }
     }
 
-    override fun getPropertyGet(obj: Any, identifier: Any): JexlPropertyGet? {
-        return if (obj is Lazy<*>) {
-            LazyJexlPropertyGet {
-                super.getPropertyGet(it, identifier)
-            }
-        } else {
-            super.getPropertyGet(obj, identifier)
-        }
-    }
-
     override fun getPropertyGet(
         resolvers: MutableList<JexlUberspect.PropertyResolver>?,
         obj: Any,
         identifier: Any
     ): JexlPropertyGet? {
         return if (obj is Lazy<*>) {
-            LazyJexlPropertyGet {
-                val propertyGet = super.getPropertyGet(resolvers, it, identifier)
-                propertyGet
+            val objEager = FusionRuntime.unwrapLazy(obj)
+            val propertyGet = super.getPropertyGet(resolvers, objEager, identifier)
+            if (propertyGet == null) {
+                return null
+            } else {
+                LazyJexlPropertyGet(propertyGet)
             }
         } else {
             super.getPropertyGet(resolvers, obj, identifier)
@@ -97,34 +90,36 @@ class LazyUberspect(
 
 // property accessors
 class LazyJexlPropertyGet(
-    private val jexlPropertyGetProvider: (Any) -> JexlPropertyGet?
+    private val eagerPropertyGet: JexlPropertyGet
 ) : JexlPropertyGet {
-    override fun invoke(obj: Any): Any {
-        val lazyObj = obj as Lazy<*>
-        return createLazy {
-            val value = FusionRuntime.unwrapLazy(lazyObj)
-                ?: throw IllegalStateException("JEXL value must not be null")
-            val realGet = jexlPropertyGetProvider(value)
-            realGet?.invoke(value)
+    override fun invoke(obj: Any): Any =
+        if (obj is Lazy<*>) {
+            createLazy {
+                val value = FusionRuntime.unwrapLazy(obj)
+                    ?: throw IllegalStateException("JEXL value must not be null")
+                eagerPropertyGet.invoke(value)
+            }
+        } else {
+            eagerPropertyGet.invoke(obj)
         }
-    }
 
-    override fun tryInvoke(obj: Any?, key: Any?): Any {
-        val lazyObj = obj as Lazy<*>
-        return createLazy {
-            val value = FusionRuntime.unwrapLazy(lazyObj.value)
-                ?: throw IllegalStateException("JEXL value must not be null")
-            val realGet = jexlPropertyGetProvider(value)
-            realGet?.tryInvoke(value, key)
+    override fun tryInvoke(obj: Any?, key: Any?): Any =
+        if (obj is Lazy<*>) {
+            createLazy {
+                val value = FusionRuntime.unwrapLazy(obj)
+                    ?: throw IllegalStateException("JEXL value must not be null")
+                eagerPropertyGet.tryInvoke(value, key)
+            }
+        } else {
+            eagerPropertyGet.tryInvoke(obj, key)
         }
-    }
 
     override fun tryFailed(rval: Any?): Boolean {
         return rval == JexlEngine.TRY_FAILED
     }
 
     override fun isCacheable(): Boolean =
-        false
+        eagerPropertyGet.isCacheable
 }
 
 // function calls
