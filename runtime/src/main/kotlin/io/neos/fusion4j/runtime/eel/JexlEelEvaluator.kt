@@ -237,7 +237,9 @@ class JexlEelContext(
         return varResult
     }
 
-    private fun evaluateValue(name: String): Any? {
+    private fun evaluateValue(name: String): Any? =
+        delegate.get(name)
+    /*
         return if (delegate.has(name)) {
             val value = delegate.get(name)
             /*if (value is Lazy<*>) {
@@ -258,6 +260,7 @@ class JexlEelContext(
             null
         }
     }
+     */
 
     override fun has(name: String): Boolean =
         if (EelHelperContextName.isEelHelperName(name)) {
