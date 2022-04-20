@@ -31,27 +31,26 @@ import io.neos.fusion4j.runtime.FusionRuntimeException
 import io.neos.fusion4j.runtime.FusionRuntimeStack
 import io.neos.fusion4j.runtime.LazyFusionEvaluation
 
-class EvaluationChain<TResult>(
-    private val runtimeAccess: EvaluationChainRuntimeAccess,
-    private val outputType: Class<TResult>
-) {
+class EvaluationChain {
 
     companion object {
         private val IF_PRE_PROCESSOR = IfPreProcessor()
         private val PROCESS_POST_PROCESSOR = ProcessPostProcessor()
     }
 
-    fun evaluateChain(lazyValue: LazyFusionEvaluation<Any?>): LazyFusionEvaluation<TResult?> {
+    fun <TResult> evaluateChain(
+        lazyValue: LazyFusionEvaluation<Any?>,
+        runtimeAccess: EvaluationChainRuntimeAccess,
+        outputType: Class<TResult>
+    ): LazyFusionEvaluation<TResult?> {
+        // fast access (no @if / @process)
         // @if
-        val cancelled = IF_PRE_PROCESSOR.isEvaluationCancelled(lazyValue, runtimeAccess)
-        if (cancelled) {
+        if (IF_PRE_PROCESSOR.isEvaluationCancelled(lazyValue, runtimeAccess)) {
             return lazyValue.cancelEvaluation()
         }
         // @process
-        val postProcessed = PROCESS_POST_PROCESSOR.postProcessValue(lazyValue, runtimeAccess)
-
-        // return with auto cast mapper
-        return postProcessed
+        return PROCESS_POST_PROCESSOR.postProcessValue(lazyValue, runtimeAccess)
+            // return with auto cast mapper
             .mapResult("auto-cast") { untypedValue ->
                 autoCast(untypedValue, outputType, runtimeAccess.callstack)
             }
@@ -77,6 +76,9 @@ private fun <T> boxedType(outputType: Class<T>): Class<T> =
 private fun <T> autoCast(evaluatedValue: Any?, outputType: Class<T>, callstack: FusionRuntimeStack): T? {
     if (evaluatedValue == null) {
         return null as T
+    }
+    if (evaluatedValue::class.java == outputType) {
+        return evaluatedValue as T
     }
     val autoBoxedOutputType = if (outputType.isPrimitive) {
         boxedType(outputType)

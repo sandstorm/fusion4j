@@ -29,7 +29,7 @@ package io.neos.fusion4j.neos.fusion.impl
 
 import io.neos.fusion4j.lang.model.FusionPathName.Companion.attribute
 import io.neos.fusion4j.runtime.*
-import io.neos.fusion4j.runtime.model.FusionAttribute
+import io.neos.fusion4j.lang.semantic.FusionAttribute
 import io.neos.fusion4j.runtime.model.FusionDataStructure
 
 @Suppress("unused")

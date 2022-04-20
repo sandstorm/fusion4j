@@ -39,5 +39,5 @@ data class PathNameSegmentPrototypeCallDecl(
     override val sourceIdentifier: FusionSourceFileIdentifier,
     override val astReference: AstReference,
 ) : FusionPathNameSegmentDecl<PrototypeCallPathSegment> {
-    override fun toString(): String = segment.toReadableString()
+    override fun toString(): String = segment.segmentAsString
 }

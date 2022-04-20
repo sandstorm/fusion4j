@@ -33,10 +33,6 @@ import io.neos.fusion4j.lang.model.values.ExpressionValue
 import io.neos.fusion4j.lang.model.values.FusionValue
 import io.neos.fusion4j.lang.semantic.EvaluationPath
 import io.neos.fusion4j.lang.semantic.FusionObjectInstance
-import mu.KLogger
-import mu.KotlinLogging
-
-private val log: KLogger = KotlinLogging.logger {}
 
 /**
  * Implementation Detail of [FusionRuntime], stored inside [DefaultImplementationRuntimeAccess]. See these classes for further docs.
@@ -45,29 +41,28 @@ private val log: KLogger = KotlinLogging.logger {}
  */
 data class FusionRuntimeStack(
     val initialContext: FusionContext,
-    val currentStack: List<FusionStackElement>
+    //private val currentStack: List<FusionStackElement>,
+    val currentDepth: Int = 0,
+    val currentStackItem: FusionStackElement? = null
 ) {
-
-    val currentStackItem: FusionStackElement? = currentStack.firstOrNull()
-
     val currentEvaluationPath: EvaluationPath?
         get() = currentStackItem?.evaluationPath
 
-    val currentContext: FusionContext =
-        currentStackItem?.context ?: initialContext
+    val currentContext: FusionContext
+        get() = currentStackItem?.context ?: initialContext
 
     private fun nextElement(
         contextLayer: FusionContextLayer,
         factory: (FusionContext, Int) -> FusionStackElement
     ): FusionRuntimeStack {
-        val nextDepth = currentStack.size + 1
+        val nextDepth = currentDepth + 1
         val nextContext = currentContext.push(contextLayer)
-        //val nextContext = if (contextLayer.empty) currentContext else currentContext.push(contextLayer)
         val nextStackElement = factory.invoke(nextContext, nextDepth)
-        log.debug("new stack element $nextStackElement")
         return FusionRuntimeStack(
             initialContext,
-            listOf(nextStackElement) + currentStack
+            currentDepth,
+            //currentStack + nextStackElement,
+            nextStackElement
         )
     }
 
@@ -108,14 +103,15 @@ data class FusionRuntimeStack(
             AppliedValueEvalStackElement(evaluationPath, context, depth, appliedValueRequest)
         }
 
-
-    override fun toString(): String = "Fusion Stack:\n -> " + currentStack.joinToString("\n -  ")
+    // TODO print on error
+    fun print(): String {
+        return "Fusion Stack: depth $currentDepth, evaluation path: ${currentStackItem?.evaluationPath}"
+    }
 
     companion object {
         fun initial(context: FusionContext) =
             FusionRuntimeStack(
-                context,
-                emptyList()
+                context
             )
     }
 
@@ -125,7 +121,9 @@ interface FusionStackElement {
     val evaluationPath: EvaluationPath
     val context: FusionContext
     val depth: Int
-    val associatedFusionLangElement: FusionLangElement?
+    val associatedFusionLangElement: FusionLangElement
+
+    fun print(): String
 }
 
 data class FusionObjectInstanceEvalStackElement(
@@ -135,10 +133,12 @@ data class FusionObjectInstanceEvalStackElement(
     val fusionObjectInstance: FusionObjectInstance,
 ) : FusionStackElement {
 
-    override val associatedFusionLangElement: FusionLangElement? =
+    override val associatedFusionLangElement: FusionLangElement =
         fusionObjectInstance.instanceDeclaration
 
-    override fun toString(): String = "${nestedDepth()} INSTANCE | $evaluationPath"
+    override fun print(): String {
+        return "${nestedDepth()} INSTANCE | $evaluationPath"
+    }
 }
 
 data class EelExpressionEvalStackElement(
@@ -151,7 +151,9 @@ data class EelExpressionEvalStackElement(
     override val associatedFusionLangElement: FusionLangElement =
         declaration
 
-    override fun toString(): String = "${nestedDepth()} EEL | $evaluationPath"
+    override fun print(): String {
+        return "${nestedDepth()} EEL | $evaluationPath"
+    }
 }
 
 data class PrimitiveValueEvalStackElement(
@@ -164,7 +166,9 @@ data class PrimitiveValueEvalStackElement(
     override val associatedFusionLangElement: FusionLangElement =
         declaration
 
-    override fun toString(): String = "${nestedDepth()} PRIMITIVE ${primitiveValue.getReadableType()} | $evaluationPath"
+    override fun print(): String {
+        return "${nestedDepth()} PRIMITIVE ${primitiveValue.getReadableType()} | $evaluationPath"
+    }
 }
 
 data class AppliedValueEvalStackElement(
@@ -182,8 +186,9 @@ data class AppliedValueEvalStackElement(
         }
     }
 
-
-    override fun toString(): String = "${nestedDepth()} APPLIED | $evaluationPath"
+    override fun print(): String {
+        return "${nestedDepth()} APPLIED | $evaluationPath"
+    }
 }
 
 private fun FusionStackElement.nestedDepth(): String =

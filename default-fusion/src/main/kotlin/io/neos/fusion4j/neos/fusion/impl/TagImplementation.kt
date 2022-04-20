@@ -83,7 +83,7 @@ class TagImplementation : FusionObjectImplementation {
                     else -> attributeValue
                 }
                 if (attributeValueUnpacked == null || attributeValueUnpacked == false) {
-                    log.debug { "Attribute '$attributeName' of tag $tagName is not rendered; value $attributeValue is null or false" }
+                    //log.debug { "Attribute '$attributeName' of tag $tagName is not rendered; value $attributeValue is null or false" }
                 } else {
                     writer.write(" $attributeName")
                     if (attributeValueUnpacked == true || attributeValueUnpacked == "") {

@@ -135,6 +135,12 @@ class FusionRuntimeSteps : En {
             evaluate(path, FusionContext.empty())
         }
 
+        When("I evaluate the Fusion path {string} {int} times") { path: String, times: Int ->
+            (1..times).forEach {
+                evaluate(path, FusionContext.empty(), it)
+            }
+        }
+
         When("I evaluate the Fusion path {string} with context vars") { path: String, varNames: DataTable ->
             evaluate(
                 path,
@@ -147,6 +153,24 @@ class FusionRuntimeSteps : En {
                     }
                 )
             )
+        }
+
+        When("I evaluate the Fusion path {string} {int} times with context vars") { path: String, times: Int, varNames: DataTable ->
+            val context = FusionContext.create(
+                varNames.asList().associateWith {
+                    if (!availableContextVariables.containsKey(it)) {
+                        fail("Test Fusion context var $it not defined; declare with steps before evaluation")
+                    }
+                    availableContextVariables[it]
+                }
+            )
+            repeat(times) {
+                evaluate(
+                    path,
+                    context,
+                    it
+                )
+            }
         }
 
         Then("the evaluated output for path {string} must be of type {string}") { path: String, expectedOutputType: String ->
@@ -234,7 +258,7 @@ class FusionRuntimeSteps : En {
         }
     }
 
-    private fun evaluate(path: String, context: FusionContext) {
+    private fun evaluate(path: String, context: FusionContext, idx: Int? = null) {
         if (runtime == null) {
             fail("no runtime initialized, use 'Given a Fusion runtime'")
         }
@@ -247,7 +271,7 @@ class FusionRuntimeSteps : En {
              */
             val evaluatedValue = runtime!!.evaluate(FusionPathName.parseAbsolute(path), Any::class.java, context)
             evaluationByPath[path] = evaluatedValue
-            log.info { "evaluation of $path took ${System.currentTimeMillis() - start} ms" }
+            println("evaluation " + (if (idx != null) "#$idx" else "") + " of $path took ${System.currentTimeMillis() - start} ms")
         } catch (error: FusionError) {
             log.error("error during test evaluation of path '$path'", error)
             lastRuntimeErrors[path] = error

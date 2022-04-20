@@ -70,25 +70,4 @@ class DefaultPackageLoaderTest {
         )
     }
 
-    @Test
-    fun teststring() {
-        val start = System.currentTimeMillis()
-        (1..100000)
-            .joinToString {
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-            }
-        println("took ${System.currentTimeMillis() - start} ms")
-    }
-
-    @Test
-    fun test2() {
-        val start = System.currentTimeMillis()
-        val writer = StringWriter()
-        for (idx in (1..100000)) {
-            writer.append("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-        }
-        println("took ${System.currentTimeMillis() - start} ms")
-
-    }
-
 }

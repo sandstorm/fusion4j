@@ -178,5 +178,5 @@ Feature: accessing sorted Fusion object instance attributes
     When I evaluate the Fusion path "testPath"
     Then there should be an error for evaluation of path "testPath" containing the following message
       """
-      Cycle detected in key position before reference: .a, cycle: [(.a, .c), (.c, .b), (.b, .a)]
+      Cycle detected in key position before reference: a, cycle: [(a, c), (c, b), (b, a)]
       """

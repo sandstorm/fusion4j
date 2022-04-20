@@ -27,29 +27,27 @@
 
 package io.neos.fusion4j.runtime.model
 
-import io.neos.fusion4j.lang.model.AbsoluteFusionPathName
 import io.neos.fusion4j.lang.model.RelativeFusionPathName
-import io.neos.fusion4j.lang.model.decl.FusionLangElement
-import io.neos.fusion4j.lang.model.values.FusionObjectValue
-import io.neos.fusion4j.lang.model.values.FusionValue
-import io.neos.fusion4j.lang.model.values.UntypedValue
-import io.neos.fusion4j.lang.semantic.FusionValueReference
+import io.neos.fusion4j.lang.semantic.FusionAttribute
+import io.neos.fusion4j.lang.semantic.FusionObjectInstance
+import io.neos.fusion4j.lang.semantic.PositionalArraySorter
 
-data class DeclaredFusionAttribute(
-    val valueReference: FusionValueReference
-) : FusionAttribute {
-    override val relativePath: RelativeFusionPathName = valueReference.relativePath
-    override val untyped: Boolean = valueReference.fusionValue is UntypedValue
-    override val valueDecl: FusionLangElement = valueReference.decl
-    override val fusionObjectType: Boolean = valueReference.fusionValue is FusionObjectValue
+/**
+ * TODO performance / cleanup (probably remove AppliedAttributeSource and map directly to AppliedFusionAttribute)
+ * A Fusion Object instance at a given fusionPath - with all the nested keys which exist at this path:
+ * - descendants of the path
+ * - attributes from the prototype (loaded from [FusionObjectInstance.attributes])
+ */
+interface RuntimeFusionObjectInstance {
 
-    companion object {
-        fun runtimeAttribute(
-            fusionValue: FusionValue,
-            basePath: AbsoluteFusionPathName,
-            path: RelativeFusionPathName,
-            decl: FusionLangElement
-        ) =
-            DeclaredFusionAttribute(FusionValueReference(fusionValue, decl, basePath + path, path))
-    }
+    val fusionObjectInstance: FusionObjectInstance
+    val isSideEffectFree: Boolean
+
+    val attributes: Map<RelativeFusionPathName, FusionAttribute>
+    val propertyAttributes: Map<RelativeFusionPathName, FusionAttribute>
+    val positionalArraySorter: PositionalArraySorter
+    val propertyAttributesSorted: List<FusionAttribute>
+
+    fun getPropertyAttribute(pathName: RelativeFusionPathName): FusionAttribute?
+
 }

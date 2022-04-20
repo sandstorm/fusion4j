@@ -37,8 +37,6 @@ import io.neos.fusion4j.runtime.FusionEvaluationRequest
 import io.neos.fusion4j.runtime.FusionRuntimeStack
 import io.neos.fusion4j.runtime.LazyFusionEvaluation
 import io.neos.fusion4j.runtime.model.RuntimeFusionObjectInstance
-import mu.KLogger
-import mu.KotlinLogging
 
 /**
  * See [ContextInitializationRuntimeAccess] for docs.

@@ -47,7 +47,7 @@ data class FusionLangElementIdentifier internal constructor(
     val fusionFile: FusionSourceFileIdentifier,
     private val identifier: String
 ) {
-    val fullyQualifiedIdentifier: String = fusionFile.identifier + identifier
+    val fullyQualifiedIdentifier: String = fusionFile.identifierAsString + identifier
 
     fun append(child: String, type: String, codeIndex: Int) =
         FusionLangElementIdentifier(fusionFile, "$identifier/$child<$type>[$codeIndex]")
@@ -147,14 +147,14 @@ fun identifierForPathNameSegment(
     parentElementIdentifier: FusionLangElementIdentifier,
     pathNameSegment: FusionPathNameSegment
 ): FusionLangElementIdentifier =
-    parentElementIdentifier.appendInner(pathNameSegment.toReadableString(), "PathNameSegment")
+    parentElementIdentifier.appendInner(pathNameSegment.segmentAsString, "PathNameSegment")
 
 fun identifierForPathConfiguration(
     parentElementIdentifier: FusionLangElementIdentifier,
     codeIndex: Int,
     fusionPath: RelativeFusionPathName
 ): FusionLangElementIdentifier =
-    parentElementIdentifier.append("$fusionPath", "PathConfiguration", codeIndex)
+    parentElementIdentifier.append(fusionPath.pathAsString, "PathConfiguration", codeIndex)
 
 fun identifierForPathConfigurationBody(
     parentElementIdentifier: FusionLangElementIdentifier
@@ -166,7 +166,7 @@ fun identifierForPathAssignment(
     codeIndex: Int,
     fusionPath: RelativeFusionPathName
 ): FusionLangElementIdentifier =
-    parentElementIdentifier.append("$fusionPath", "PathAssignment", codeIndex)
+    parentElementIdentifier.append(fusionPath.pathAsString, "PathAssignment", codeIndex)
 
 fun identifierForPathAssignmentValue(
     parentElementIdentifier: FusionLangElementIdentifier,
@@ -244,7 +244,7 @@ fun identifierForPathCopy(
     codeIndex: Int,
     fusionPath: FusionPathName
 ): FusionLangElementIdentifier =
-    parentElementIdentifier.append("$fusionPath", "PathCopy", codeIndex)
+    parentElementIdentifier.append(fusionPath.pathAsString, "PathCopy", codeIndex)
 
 fun identifierForPathCopyBody(
     parentElementIdentifier: FusionLangElementIdentifier

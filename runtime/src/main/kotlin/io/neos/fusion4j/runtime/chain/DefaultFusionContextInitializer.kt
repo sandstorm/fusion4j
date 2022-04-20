@@ -53,7 +53,7 @@ class DefaultFusionContextInitializer : FusionContextInitializer {
                 }
                 .filterValues { !it.cancelled }
                 .mapValues { it.value.toLazy() }
-                .mapKeys { it.key.toReadableString() }
+                .mapKeys { it.key.pathAsString }
         )
     }
 }

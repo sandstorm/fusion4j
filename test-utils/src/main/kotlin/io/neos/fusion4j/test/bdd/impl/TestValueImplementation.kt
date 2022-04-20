@@ -43,7 +43,7 @@ class TestValueImplementation : FusionObjectImplementation {
                 "[RESOLVED VALUE IS CANCELLED]"
             }
         } else {
-            "[UNDEFINED ATTRIBUTE ACCESS '${PATH_VALUE.toReadableString()}']"
+            "[UNDEFINED ATTRIBUTE ACCESS '${PATH_VALUE.pathAsString}']"
         }
     }
 

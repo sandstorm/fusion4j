@@ -38,5 +38,5 @@ data class PathNameSegmentMetaPropertyDecl(
     override val sourceIdentifier: FusionSourceFileIdentifier,
     override val astReference: AstReference,
 ) : FusionPathNameSegmentDecl<MetaPropertyPathSegment> {
-    override fun toString(): String = segment.toReadableString()
+    override fun toString(): String = segment.segmentAsString
 }

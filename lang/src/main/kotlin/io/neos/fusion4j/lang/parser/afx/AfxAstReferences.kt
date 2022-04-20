@@ -300,7 +300,7 @@ class AfxAstReferences(
     ): AstReference =
         codeOffset(
             "AFX assignment path segment",
-            segment.toReadableString(),
+            segment.segmentAsString,
             afxAssignment.parseResult.first().start.toCodePosition(),
             afxAssignment.parseResult.last().stop.toCodePosition(),
             identifier,

@@ -366,7 +366,7 @@ class FusionParserSteps : En {
                         assertEquals(
                             "path segment name mismatch",
                             expectedPathSegmentAstReference.name,
-                            actualModel.segment.toReadableString()
+                            actualModel.segment.segmentAsString
                         )
                         assertEquals(
                             "path segment type mismatch",
@@ -696,7 +696,7 @@ class FusionParserSteps : En {
                 "${expected.type}Decl",
                 actual.valueDeclaration.javaClass.simpleName.toString()
             )
-            assertEquals("path name mismatch", expected.path, actual.relativePath.toReadableString())
+            assertEquals("path name mismatch", expected.path, actual.relativePath.pathAsString)
             assertEquals(
                 "value mismatch",
                 sanitizer(StringValue.restoreSpecialWhitespaceCharacters(expected.value)),
@@ -709,7 +709,7 @@ class FusionParserSteps : En {
         actuals: List<FusionPathConfigurationDecl>
     ) =
         assertCodeIndexed(expected, actuals) { actual ->
-            assertEquals("path name mismatch", expected.path, actual.relativePath.toReadableString())
+            assertEquals("path name mismatch", expected.path, actual.relativePath.pathAsString)
         }
 
     private fun assertPrototypeDeclarationExists(expected: MockPrototypeDeclaration, actuals: List<PrototypeDecl>) =
@@ -735,7 +735,7 @@ class FusionParserSteps : En {
 
     private fun assertPathErasureExists(expected: MockPathErasure, actuals: List<FusionPathErasureDecl>) =
         assertCodeIndexed(expected, actuals) { actual ->
-            assertEquals("erasure path mismatch", expected.path, actual.relativePath.toReadableString())
+            assertEquals("erasure path mismatch", expected.path, actual.relativePath.pathAsString)
         }
 
     private fun assertCodeCommentExists(expected: MockCodeComment, actuals: List<CodeCommentDecl>) =
@@ -933,7 +933,7 @@ internal inline fun <reified T : Any> assertModel(
 }
 
 private fun <T> validatePathName(model: T, pathSegment: TestPathSegment, actualPathName: FusionPathName): T =
-    validatePathName(model, pathSegment, actualPathName.toReadableString())
+    validatePathName(model, pathSegment, actualPathName.pathAsString)
 
 private fun <T> validatePathName(model: T, pathSegment: TestPathSegment, actualPathName: String): T {
     if (pathSegment.pathName != null) {

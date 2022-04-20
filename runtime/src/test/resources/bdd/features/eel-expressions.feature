@@ -264,7 +264,7 @@ Feature: evaluation of EEL Expressions
           expression: ${this.nonExisting + 1}
           offending: 'this.nonExisting' at line 1 char 38
           problem: JEXL error : + error caused by null operand -> EEL operation '+' with null operand 'this.nonExisting' is not allowed in strict mode
-          element: in-memory://MyTestPackage/Root.fusion/.somePath.value<PathAssignment>[0]/<PathAssignmentValue|Expression>
+          element: in-memory://MyTestPackage/Root.fusion/somePath.value<PathAssignment>[0]/<PathAssignmentValue|Expression>
           code: expression value, from line 1 char 18 to line 1 char 41
       """
 
@@ -285,6 +285,6 @@ Feature: evaluation of EEL Expressions
           expression: ${thiß.ötherValue}
           offending: '(thi)ß.ötherValue ...' at line 2 char 22
           problem: Could not parse expression; cause:
-          element: in-memory://MyTestPackage/Root.fusion/.somePath.value<PathAssignment>[0]/<PathAssignmentValue|Expression>
+          element: in-memory://MyTestPackage/Root.fusion/somePath.value<PathAssignment>[0]/<PathAssignmentValue|Expression>
           code: expression value, from line 1 char 18 to line 1 char 36
       """

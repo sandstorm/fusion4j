@@ -25,32 +25,14 @@
  *  - Eric Kloss
  */
 
-package io.neos.fusion4j.runtime.model
+package io.neos.fusion4j.lang.semantic
 
-import io.neos.fusion4j.lang.model.AbsoluteFusionPathName
 import io.neos.fusion4j.lang.model.RelativeFusionPathName
 import io.neos.fusion4j.lang.model.decl.FusionLangElement
 
-data class AppliedFusionAttribute(
-    override val relativePath: RelativeFusionPathName,
-    override val valueDecl: FusionLangElement,
-    val absolutePath: AbsoluteFusionPathName,
-    val evaluatedValue: Any?
-) : FusionAttribute {
-    override val untyped: Boolean = false
-    override val fusionObjectType: Boolean = false
-
-    companion object {
-        fun fromAppliedAttributeSource(
-            basePath: AbsoluteFusionPathName,
-            attributeKey: RelativeFusionPathName,
-            source: AppliedAttributeSource
-        ): AppliedFusionAttribute =
-            AppliedFusionAttribute(
-                attributeKey,
-                source.declaration,
-                basePath + attributeKey,
-                source.value
-            )
-    }
+interface FusionAttribute {
+    val relativePath: RelativeFusionPathName
+    val untyped: Boolean
+    val valueDecl: FusionLangElement
+    val fusionObjectType: Boolean
 }

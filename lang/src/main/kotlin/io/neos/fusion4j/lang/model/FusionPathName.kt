@@ -33,7 +33,9 @@ interface FusionPathName {
 
     val segments: List<FusionPathNameSegment>
     val absolute: Boolean
+    val pathAsString: String
 
+    // TODO
     val nested: Boolean get() = segments.size > 1
 
     val root: Boolean get() = segments.isEmpty()
@@ -90,9 +92,6 @@ interface FusionPathName {
             }
         }
 
-    fun toReadableString(): String =
-        segments.joinToString(".", transform = FusionPathNameSegment::toReadableString)
-
     fun isAnyChildOf(parentPath: FusionPathName): Boolean =
         parentPath.segments.isEmpty() || nested && segments.size > parentPath.segments.size &&
                 parentPath.segments.indices.all { segments[it] == parentPath.segments[it] }
@@ -100,7 +99,7 @@ interface FusionPathName {
     fun relativeToPrototype(): RelativeFusionPathName {
         val indexOfLastPrototypeCallPathSegment = segments.indexOfLast { it is PrototypeCallPathSegment }
         if (indexOfLastPrototypeCallPathSegment < 0) {
-            throw IllegalStateException("Path '${toReadableString()}' is not child of a prototype path")
+            throw IllegalStateException("Path '$pathAsString' is not child of a prototype path")
         }
         return RelativeFusionPathName.fromSegments(
             segments.subList(
@@ -245,6 +244,11 @@ data class FusionPathNameSegmentsBuilder<TPath : FusionPathName>(
 data class RelativeFusionPathName private constructor(
     override val segments: List<FusionPathNameSegment>
 ) : FusionPathName {
+
+    override val pathAsString: String by lazy {
+        segments.joinToString(".", transform = FusionPathNameSegment::segmentAsString)
+    }
+
     override val absolute: Boolean = false
     val metaAttribute: Boolean
         get() =
@@ -298,7 +302,7 @@ data class RelativeFusionPathName private constructor(
 
     operator fun plus(appendix: RelativeFusionPathName) = append(appendix)
 
-    override fun toString(): String = ".${toReadableString()}"
+    override fun toString(): String = "RelativeFusionPathName"
 
     companion object {
         fun fromSegments(segments: List<FusionPathNameSegment>): RelativeFusionPathName =
@@ -310,6 +314,10 @@ data class RelativeFusionPathName private constructor(
 data class AbsoluteFusionPathName private constructor(
     override val segments: List<FusionPathNameSegment>
 ) : FusionPathName {
+
+    override val pathAsString: String by lazy {
+        "/" + segments.joinToString(".", transform = FusionPathNameSegment::segmentAsString)
+    }
 
     override val absolute: Boolean = true
     val prototypeExtensionScopePath: AbsoluteFusionPathName get() = fromSegments(prototypeExtensionScopePathSegments)
@@ -385,7 +393,7 @@ data class AbsoluteFusionPathName private constructor(
 
     operator fun plus(appendix: RelativeFusionPathName) = append(appendix)
 
-    override fun toString(): String = "/${toReadableString()}"
+    override fun toString(): String = "AbsoluteFusionPathName"
 
     companion object {
         fun fromSegments(segments: List<FusionPathNameSegment>) =

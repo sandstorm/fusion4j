@@ -36,7 +36,7 @@ data class EvaluationPath(
     val segments: List<EvaluationPathSegment>
 ) {
 
-    val currentType: QualifiedPrototypeName? = segments.findLast { it.type != null }?.type
+    val currentType: QualifiedPrototypeName? get() = segments.findLast { it.type != null }?.type
 
     val currentPrototypeName: QualifiedPrototypeName
         get() = currentType ?: throw IllegalStateException("Evaluation path $this must have an explicit type")
@@ -53,9 +53,12 @@ data class EvaluationPath(
             }
         )
 
-    override fun toString(): String =
-        segments.joinToString("") { "${it.nestedPath}${if (it.type != null) "<${it.type}>" else ""}" }
+    // TODO print on error
+    fun print(): String {
+        return ""//segments.joinToString("") { "${it.nestedPath}${if (it.type != null) "<${it.type}>" else ""}" }
+    }
 
+    override fun toString(): String = "EvaluationPath"
 
     companion object {
         fun initialAbsolute(absolutePath: AbsoluteFusionPathName, type: QualifiedPrototypeName?): EvaluationPath {

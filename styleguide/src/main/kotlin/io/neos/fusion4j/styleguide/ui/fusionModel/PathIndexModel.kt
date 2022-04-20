@@ -95,10 +95,12 @@ data class PathIndexModel(
                 }
 
             return PathIndexModel(
+                /*
                 entrypointPaths = FusionDataStructure.fromList(
                     collected.entrypointPaths
                         .sortedBy(order)
-                ),
+                ),*/
+                entrypointPaths = FusionDataStructure.fromList(allPaths),
                 prototypePaths = FusionDataStructure.fromList(
                     collected.prototypePaths
                         .sortedBy(order)
@@ -123,7 +125,7 @@ data class PathIndexModel(
         val directChildPaths: FusionDataStructure<FusionValueModel>
     ) {
         @FusionApi
-        val pathName: String = path.toString()
+        val pathName: String = path.pathAsString
     }
 
     data class FusionValueModel(

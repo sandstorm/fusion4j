@@ -54,7 +54,7 @@ Feature: rendering performance
       """
     Given all Fusion packages are parsed
     And a Fusion runtime
-    When I evaluate the Fusion path "foo"
+    When I evaluate the Fusion path "foo" 10 times
     Then the evaluated output for path "foo" must be of type "java.lang.String"
 
   Scenario: big AFX to render
@@ -65,7 +65,7 @@ Feature: rendering performance
       """
     Given all Fusion packages are parsed
     And a Fusion runtime
-    When I evaluate the Fusion path "foo"
+    When I evaluate the Fusion path "foo" 10 times
     Then the evaluated output for path "foo" must be of type "java.lang.String"
 
 
@@ -79,7 +79,7 @@ Feature: rendering performance
       """
     Given all Fusion packages are parsed
     And a Fusion runtime
-    When I evaluate the Fusion path "foo"
+    When I evaluate the Fusion path "foo" 5 times
     Then the evaluated output for path "foo" must be of type "java.lang.String"
 
   Scenario: big loop of tags
@@ -95,7 +95,7 @@ Feature: rendering performance
       """
     Given all Fusion packages are parsed
     And a Fusion runtime
-    When I evaluate the Fusion path "foo"
+    When I evaluate the Fusion path "foo" 5 times
     Then the evaluated output for path "foo" must be of type "java.lang.String"
 
 
@@ -106,7 +106,7 @@ Feature: rendering performance
       """
     Given all Fusion packages are parsed
     And a Fusion runtime
-    When I evaluate the Fusion path "foo"
+    When I evaluate the Fusion path "foo" 10 times
     Then the evaluated output for path "foo" must be of type "java.lang.String"
 
   Scenario: big data structure in context with loop
@@ -147,7 +147,7 @@ Feature: rendering performance
         }
       }
       """
-    When I evaluate the Fusion path "foo" with context vars
+    When I evaluate the Fusion path "foo" 5 times with context vars
       | bigDataStructure |
     Then the evaluated output for path "foo" must be of type "java.lang.String"
 

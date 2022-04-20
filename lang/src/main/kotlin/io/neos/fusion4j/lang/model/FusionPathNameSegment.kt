@@ -35,7 +35,7 @@ interface FusionPathNameSegment {
 
     val type: PathSegmentType
 
-    fun toReadableString(): String
+    val segmentAsString: String
 
 }
 
@@ -60,11 +60,12 @@ data class PropertyPathSegment private constructor(
     val quoting: PathNameSegmentQuoting,
     override val type: PathSegmentType = PathSegmentType.PROPERTY
 ) : FusionPropertyPathSegment {
-    override fun toReadableString(): String = when (quoting) {
-        PathNameSegmentQuoting.NO_QUOTES -> name
-        PathNameSegmentQuoting.DOUBLE_QUOTED -> "\"$name\""
-        PathNameSegmentQuoting.SINGLE_QUOTED -> "'$name'"
-    }
+    override val segmentAsString: String =
+        when (quoting) {
+            PathNameSegmentQuoting.NO_QUOTES -> name
+            PathNameSegmentQuoting.DOUBLE_QUOTED -> "\"$name\""
+            PathNameSegmentQuoting.SINGLE_QUOTED -> "'$name'"
+        }
 
     companion object {
         fun create(name: String, quoting: PathNameSegmentQuoting): PropertyPathSegment {
@@ -80,7 +81,7 @@ data class MetaPropertyPathSegment private constructor(
     override val name: String,
     override val type: PathSegmentType = PathSegmentType.META_PROPERTY
 ) : FusionPropertyPathSegment {
-    override fun toReadableString(): String = "@$name"
+    override val segmentAsString: String = "@$name"
 
     companion object {
         fun create(name: String): MetaPropertyPathSegment {
@@ -96,7 +97,7 @@ data class PrototypeCallPathSegment private constructor(
     val prototypeName: QualifiedPrototypeName,
     override val type: PathSegmentType = PathSegmentType.PROTOTYPE_CALL
 ) : FusionPathNameSegment {
-    override fun toReadableString(): String = "prototype($prototypeName)"
+    override val segmentAsString: String = "prototype($prototypeName)"
 
     companion object {
         fun create(prototypeName: QualifiedPrototypeName): PrototypeCallPathSegment =
