@@ -268,6 +268,27 @@ Feature: evaluation of EEL Expressions
           code: expression value, from line 1 char 18 to line 1 char 41
       """
 
+  Scenario: strict mode throws error when comparing incompatible data types
+    Given the Fusion file "Root.fusion" contains the following code
+      """fusion
+      myPath = ${"abc" > 123}
+      """
+    Given all Fusion packages are parsed
+    And a Fusion runtime
+    When I evaluate the Fusion path "myPath"
+    Then there should be an error for evaluation of path "myPath" containing the following message
+      """
+      Could not evaluate EEL expression
+          EEL operation '+' with null operand 'this.nonExisting' is not allowed in strict mode
+          source: in-memory://MyTestPackage/Root.fusion
+          hints: [thread=[*]]
+          expression: ${this.nonExisting + 1}
+          offending: 'this.nonExisting' at line 1 char 38
+          problem: JEXL error : + error caused by null operand -> EEL operation '+' with null operand 'this.nonExisting' is not allowed in strict mode
+          element: in-memory://MyTestPackage/Root.fusion/somePath.value<PathAssignment>[0]/<PathAssignmentValue|Expression>
+          code: expression value, from line 1 char 18 to line 1 char 41
+      """
+
   Scenario: invalid EEL syntax gives parse error at runtime
     Given the Fusion file "Root.fusion" contains the following code
       """
