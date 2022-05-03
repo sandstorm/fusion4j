@@ -33,21 +33,6 @@ data class FusionContext(
     override val currentContextMap: Map<String, Any?>
 ) : FusionContextAccess {
 
-    /*
-    override val currentContextMap: Map<String, Any?> by lazy {
-        contextMatroschka
-            .reversed()
-            // main layer
-            .fold(emptyMap()) { result, current ->
-                result + current.data
-                    // sub layer
-                    .fold(emptyMap()) { resultInner, currentInner ->
-                        resultInner + currentInner.data
-                    }
-            }
-    }
-     */
-
     fun push(nextContext: FusionContextLayer): FusionContext =
         if (nextContext.empty) {
             this

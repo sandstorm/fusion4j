@@ -48,6 +48,8 @@ Feature: rendering performance
       """fusion
       include: *
       foo = Neos.Fusion:Loop {
+        @context.var1 = 1
+        @if.foo = ${value > 0}
         items = ${(1 .. 10000).toArray()}
         itemRenderer = Fusion4j.Styleguide:Components.Header
       }

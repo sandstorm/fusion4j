@@ -271,7 +271,7 @@ class FusionRuntimeSteps : En {
              */
             val evaluatedValue = runtime!!.evaluate(FusionPathName.parseAbsolute(path), Any::class.java, context)
             evaluationByPath[path] = evaluatedValue
-            println("evaluation " + (if (idx != null) "#$idx" else "") + " of $path took ${System.currentTimeMillis() - start} ms")
+            println("evaluation " + (if (idx != null) "#$idx " else "") + "of $path took ${System.currentTimeMillis() - start} ms")
         } catch (error: FusionError) {
             log.error("error during test evaluation of path '$path'", error)
             lastRuntimeErrors[path] = error

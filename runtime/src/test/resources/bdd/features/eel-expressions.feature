@@ -1,7 +1,7 @@
 Feature: evaluation of EEL Expressions
 
   Background:
-    Given
+  Given
     Given the package "MyTestPackage" with entrypoint "Root.fusion"
     Given the Fusion file "Value.fusion" contains the following code
       """fusion
@@ -263,15 +263,15 @@ Feature: evaluation of EEL Expressions
           hints: [thread=[*]]
           expression: ${this.nonExisting + 1}
           offending: 'this.nonExisting' at line 1 char 38
-          problem: JEXL error : + error caused by null operand -> EEL operation '+' with null operand 'this.nonExisting' is not allowed in strict mode
+          problem: + error -> EEL operation '+' with null operand 'this.nonExisting' is not allowed in strict mode
           element: in-memory://MyTestPackage/Root.fusion/somePath.value<PathAssignment>[0]/<PathAssignmentValue|Expression>
           code: expression value, from line 1 char 18 to line 1 char 41
       """
 
-  Scenario: strict mode throws error when comparing incompatible data types
+  Scenario Outline: strict mode throws error when comparing incompatible data types
     Given the Fusion file "Root.fusion" contains the following code
-      """fusion
-      myPath = ${"abc" > 123}
+      """
+      myPath = ${<left> > <right>}
       """
     Given all Fusion packages are parsed
     And a Fusion runtime
@@ -279,15 +279,49 @@ Feature: evaluation of EEL Expressions
     Then there should be an error for evaluation of path "myPath" containing the following message
       """
       Could not evaluate EEL expression
-          EEL operation '+' with null operand 'this.nonExisting' is not allowed in strict mode
+          arithmetic error: Cannot compare objects of different types in strict EEL mode; left: class <lType>, right: class <rType>
           source: in-memory://MyTestPackage/Root.fusion
           hints: [thread=[*]]
-          expression: ${this.nonExisting + 1}
-          offending: 'this.nonExisting' at line 1 char 38
-          problem: JEXL error : + error caused by null operand -> EEL operation '+' with null operand 'this.nonExisting' is not allowed in strict mode
-          element: in-memory://MyTestPackage/Root.fusion/somePath.value<PathAssignment>[0]/<PathAssignmentValue|Expression>
-          code: expression value, from line 1 char 18 to line 1 char 41
+          expression: ${<left> > <right>}
+          offending: '<right>' at line 1 char <offendingChar>
+          problem: > error -> arithmetic error: Cannot compare objects of different types in strict EEL mode; left: class <lType>, right: class <rType>
+          element: in-memory://MyTestPackage/Root.fusion/myPath<PathAssignment>[0]/<PathAssignmentValue|Expression>
+          code: expression value, from line 1 char 10 to line 1 char <endChar>
       """
+    Examples:
+      | left  | right | lType             | rType             | offendingChar | endChar |
+      | "abc" | 123   | java.lang.String  | java.lang.Integer | 19            | 24      |
+      | 123   | "abc" | java.lang.Integer | java.lang.String  | 17            | 24      |
+      | 123   | true  | java.lang.Integer | java.lang.Boolean | 17            | 23      |
+      | "abc" | true  | java.lang.String  | java.lang.Boolean | 19            | 25      |
+
+  Scenario Outline: comparing unequal but compatible data types
+    Given the Fusion file "Root.fusion" contains the following code
+      """
+      myPath = ${<left> > <right>}
+      """
+    Given all Fusion packages are parsed
+    And a Fusion runtime
+    When I evaluate the Fusion path "myPath"
+    Then the evaluated output for path "myPath" must be of type "java.lang.Boolean"
+    Then the evaluated output for path "myPath" must be
+      """
+      <result>
+      """
+    Examples:
+      | left            | right                                                                           | result |
+      # float and int
+      | 234.567         | 123                                                                             | true   |
+      # int and float
+      | 123             | 234.567                                                                         | false  |
+      # long and int
+      | 50000000000     | 1                                                                               | true   |
+      # double and int
+      | 1.1234567891011 | 1                                                                               | true   |
+      # int and big int
+      | 0               | 111123432343453456456756767867978968465745674567456456456456456456456456456     | false  |
+      # int and big decimal
+      | 0               | 111123432343453456456756767867978968465745674567456456456456456456456456456.123 | false  |
 
   Scenario: invalid EEL syntax gives parse error at runtime
     Given the Fusion file "Root.fusion" contains the following code
