@@ -1,7 +1,6 @@
 Feature: evaluation of EEL Expressions
 
   Background:
-  Given
     Given the package "MyTestPackage" with entrypoint "Root.fusion"
     Given the Fusion file "Value.fusion" contains the following code
       """fusion
