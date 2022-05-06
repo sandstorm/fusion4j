@@ -164,15 +164,12 @@ class LazyJexlArithmetic(
     override fun mod(left: Any?, right: Any?): Any? = lazyOperation(left, right) { l, r -> super.mod(l, r) }
     override fun compare(left: Any?, right: Any?, operator: String?): Int =
         eagerOperation(left, right) { l, r ->
-            if (strict && l != null && r != null && l::class.java != r::class.java) {
-                if (isNumericType(l) && isNumericType(r)) {
-                    super.compare(l, r, operator)
-                } else {
+            when {
+                l == null || r == null -> super.compare(l, r, operator)
+                strict && l::class.java != r::class.java && !(isNumericType(l) && isNumericType(r)) ->
                     throw ArithmeticException("Cannot compare objects of different types in strict EEL mode; " +
-                            "left: ${l::class.java}, right: ${r::class.java}")
-                }
-            } else {
-                super.compare(l, r, operator)
+                            "left: ${l::class.java.name}, right: ${r::class.java.name}")
+                else -> super.compare(l, r, operator)
             }
         }
 

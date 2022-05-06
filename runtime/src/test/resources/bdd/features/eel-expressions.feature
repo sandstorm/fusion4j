@@ -278,12 +278,12 @@ Feature: evaluation of EEL Expressions
     Then there should be an error for evaluation of path "myPath" containing the following message
       """
       Could not evaluate EEL expression
-          arithmetic error: Cannot compare objects of different types in strict EEL mode; left: class <lType>, right: class <rType>
+          arithmetic error: Cannot compare objects of different types in strict EEL mode; left: <lType>, right: <rType>
           source: in-memory://MyTestPackage/Root.fusion
           hints: [thread=[*]]
           expression: ${<left> > <right>}
           offending: '<right>' at line 1 char <offendingChar>
-          problem: > error -> arithmetic error: Cannot compare objects of different types in strict EEL mode; left: class <lType>, right: class <rType>
+          problem: > error -> arithmetic error: Cannot compare objects of different types in strict EEL mode; left: <lType>, right: <rType>
           element: in-memory://MyTestPackage/Root.fusion/myPath<PathAssignment>[0]/<PathAssignmentValue|Expression>
           code: expression value, from line 1 char 10 to line 1 char <endChar>
       """
