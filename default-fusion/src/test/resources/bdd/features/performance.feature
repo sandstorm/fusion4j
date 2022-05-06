@@ -48,8 +48,22 @@ Feature: rendering performance
       """fusion
       include: *
       foo = Neos.Fusion:Loop {
+        items = ${(1 .. 10000).toArray()}
+        itemRenderer = Fusion4j.Styleguide:Components.Header
+      }
+      """
+    Given all Fusion packages are parsed
+    And a Fusion runtime
+    When I evaluate the Fusion path "foo" 10 times
+    Then the evaluated output for path "foo" must be of type "java.lang.String"
+
+  Scenario: lots of stuff to render with if and context
+    Given the Fusion file "Root.fusion" contains the following code
+      """fusion
+      include: *
+      foo = Neos.Fusion:Loop {
         @context.var1 = 1
-        @if.foo = ${value > 0}
+        @if.foo = ${size(value) > 0}
         items = ${(1 .. 10000).toArray()}
         itemRenderer = Fusion4j.Styleguide:Components.Header
       }
