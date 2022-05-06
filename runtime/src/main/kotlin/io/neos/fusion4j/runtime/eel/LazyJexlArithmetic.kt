@@ -150,7 +150,9 @@ class LazyJexlMethod(
 
 }
 
-class LazyJexlArithmetic(strict: Boolean) : JexlArithmetic(strict) {
+class LazyJexlArithmetic(
+    private val strict: Boolean
+) : JexlArithmetic(strict) {
 
     override fun add(left: Any?, right: Any?): Any? = lazyOperation(left, right) { l, r -> super.add(l, r) }
     override fun subtract(left: Any?, right: Any?): Any? = lazyOperation(left, right) { l, r -> super.subtract(l, r) }
@@ -161,7 +163,15 @@ class LazyJexlArithmetic(strict: Boolean) : JexlArithmetic(strict) {
     override fun divide(left: Any?, right: Any?): Any? = lazyOperation(left, right) { l, r -> super.divide(l, r) }
     override fun mod(left: Any?, right: Any?): Any? = lazyOperation(left, right) { l, r -> super.mod(l, r) }
     override fun compare(left: Any?, right: Any?, operator: String?): Int =
-        eagerOperation(left, right) { l, r -> super.compare(l, r, operator) }
+        eagerOperation(left, right) { l, r ->
+            when {
+                l == null || r == null -> super.compare(l, r, operator)
+                strict && l::class.java != r::class.java && !(isNumericType(l) && isNumericType(r)) ->
+                    throw ArithmeticException("Cannot compare objects of different types in strict EEL mode; " +
+                            "left: ${l::class.java.name}, right: ${r::class.java.name}")
+                else -> super.compare(l, r, operator)
+            }
+        }
 
     override fun toBoolean(value: Any): Boolean = eagerUnaryOperation(value) { v -> super.toBoolean(v) }
     override fun toInteger(value: Any): Int = eagerUnaryOperation(value) { v -> super.toInteger(v) }
@@ -236,6 +246,9 @@ class LazyJexlArithmetic(strict: Boolean) : JexlArithmetic(strict) {
     }
 
 }
+
+private fun isNumericType(any: Any): Boolean =
+    any is Int || any is Float || any is Double || any is BigInteger || any is BigDecimal || any is Long
 
 private fun <T> createLazy(initializer: () -> T): Lazy<T> =
     lazy(initializer)

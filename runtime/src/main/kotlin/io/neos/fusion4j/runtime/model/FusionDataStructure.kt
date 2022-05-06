@@ -61,7 +61,6 @@ class FusionDataStructure<T>(
 
     override fun toString(): String = "FusionDataStructure"
 
-
     companion object {
         fun <T> fromList(data: List<T>): FusionDataStructure<T> =
             FusionDataStructure(

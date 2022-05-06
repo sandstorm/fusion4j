@@ -86,7 +86,7 @@ class JexlEelEvaluator(
                     .map { error ->
                         when (error) {
                             is JexlException -> {
-                                val jexlMsg = error.message
+                                val jexlMsg = error.detail
                                 jexlMsg
                                     ?.split(" ")
                                     ?.filterNot {
@@ -100,7 +100,7 @@ class JexlEelEvaluator(
                                 "EEL operation '${extractOperatorFromJexlError(jexlError)}' " +
                                         "with null operand '$offendingExpression' is not allowed in strict mode"
                             is ArithmeticException ->
-                                "TODO unhandled: " + (error.message ?: error.toString())
+                                "arithmetic error: " + (error.message ?: error.toString())
                             else -> error.message ?: error.toString()
                         }
                     }
